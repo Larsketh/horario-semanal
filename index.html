@@ -6,24 +6,79 @@
 <title>Horario de Limpieza – Casa Familiar</title>
 <style>
   @page{size:A4 landscape;margin:8mm}
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'Segoe UI',Roboto,Arial,sans-serif;background:#f5f7fa;color:#1a1a1a;padding:20px 14px;line-height:1.4}
-  header{text-align:center;margin-bottom:18px}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  body{
+    font-family:'Segoe UI',Roboto,Arial,sans-serif;
+    background:#f5f7fa;color:#1a1a1a;line-height:1.45;
+    padding:18px 14px;min-height:100vh;
+  }
+  header{text-align:center;margin-bottom:16px}
   h1{font-size:24px;color:#1e6f3c;margin-bottom:6px;letter-spacing:.3px}
-  .subtitle{font-size:12px;color:#666;margin-bottom:4px}
-  .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:8px;font-size:11px}
+  .subtitle{font-size:12px;color:#666;margin-bottom:6px}
+  .badges{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;margin-top:6px;font-size:11px}
   .badge{background:#e8f5e9;color:#1e6f3c;padding:3px 10px;border-radius:12px;border:1px solid #c8e6c9;font-weight:600}
-  .tabla-wrap{overflow-x:auto;border-radius:10px;box-shadow:0 4px 14px rgba(0,0,0,.08);background:#fff}
-  table{width:100%;border-collapse:collapse;font-size:11px;min-width:900px}
-  th,td{border:1px solid #d5dbe0;padding:8px 6px;vertical-align:top;text-align:left}
+
+  /* ==== ESCRITORIO: TABLA ==== */
+  .tabla-wrap{
+    overflow-x:auto;border-radius:12px;
+    box-shadow:0 4px 14px rgba(0,0,0,.08);background:#fff;
+  }
+  table{width:100%;border-collapse:collapse;font-size:11px;min-width:820px}
+  th,td{border:1px solid #d5dbe0;padding:9px 8px;vertical-align:top;text-align:left}
   th{background:#1e6f3c;color:#fff;font-size:11.5px;text-align:center;font-weight:600;padding:10px 6px}
-  td.dia{font-weight:700;background:#e8f5e9;text-align:center;width:50px;font-size:12px;color:#1e6f3c}
+  td.dia{font-weight:700;background:#e8f5e9;text-align:center;width:56px;font-size:12px;color:#1e6f3c}
   .brak{background:#fff8e1}
   .belen{background:#fce4ec}
   .marvin{background:#e1f5fe}
   .andriu{background:#e8f5e9}
+
+  /* ==== MÓVIL: TARJETAS ==== */
+  .cards{display:none}
+
   .footer{text-align:center;font-size:10.5px;color:#888;margin-top:16px;padding-top:10px;border-top:1px solid #e0e0e0}
-  @media(max-width:700px){h1{font-size:18px}table{font-size:10px}th,td{padding:6px 4px}}
+
+  /* ====== RESPONSIVE ====== */
+  @media (max-width:768px){
+    body{padding:14px 10px}
+    h1{font-size:19px}
+    .subtitle{font-size:11px}
+    .badge{font-size:10px;padding:2px 8px}
+    .tabla-wrap{display:none}
+    .cards{display:block}
+
+    .card{
+      background:#fff;border-radius:14px;
+      box-shadow:0 3px 10px rgba(0,0,0,.08);
+      margin-bottom:12px;overflow:hidden;
+    }
+    .card-head{
+      background:#1e6f3c;color:#fff;
+      padding:10px 14px;font-weight:700;font-size:14px;
+      display:flex;justify-content:space-between;align-items:center;
+      letter-spacing:.5px;
+    }
+    .card-head .emoji{font-size:16px}
+    .persona{
+      padding:10px 14px;
+      border-bottom:1px solid #eef1f4;
+      font-size:12.5px;line-height:1.5;
+    }
+    .persona:last-child{border-bottom:none}
+    .persona .nombre{
+      display:block;font-weight:700;font-size:12px;
+      margin-bottom:3px;color:#333;
+    }
+    .brak-bg{background:#fff8e1}
+    .belen-bg{background:#fce4ec}
+    .marvin-bg{background:#e1f5fe}
+    .andriu-bg{background:#e8f5e9}
+  }
+
+  @media (max-width:400px){
+    h1{font-size:17px}
+    .persona{font-size:12px;padding:9px 12px}
+    .card-head{font-size:13px;padding:9px 12px}
+  }
 </style>
 </head>
 <body>
@@ -36,6 +91,7 @@
   </div>
 </header>
 
+<!-- ===== VISTA ESCRITORIO: TABLA ===== -->
 <div class="tabla-wrap">
 <table>
   <thead>
@@ -99,6 +155,67 @@
     </tr>
   </tbody>
 </table>
+</div>
+
+<!-- ===== VISTA MÓVIL: TARJETAS ===== -->
+<div class="cards">
+
+  <div class="card">
+    <div class="card-head"><span class="emoji">📅</span><span>LUNES</span></div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Cocina cena · 🚮 Basura · 🪟 Ventanas sala · 🛋️ Acomodar sofá</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🍳 Cocina almuerzo · 🧼 Mesa · 🏡 Exterior</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🚿 Baño 2do piso · 🐾 Patio cocina · 🧹 Suelo sala</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🚿 Baño 1er piso · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="emoji">📅</span><span>MARTES</span></div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🛁 Baño completo 2do piso · 🧊 Refrigerador · 🧽 Tercer piso · 🗄️ Organizar estantes de cocina</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🚿 Baño 1er piso · 🐾 Patio cocina · 🧹 Suelo sala · 🛋️ Acomodar sofá</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Cocina almuerzo · 🪜 Barrer y trapear escaleras con el pasadizo · 🧊 Refrigerador</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Cocina cena · 🚮 Basura · 🧹 Suelo sala · 🧼 Mesa</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="emoji">📅</span><span>MIÉRCOLES</span></div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Cocina cena · 🚿 Baño 2do piso · 🐾 Patio cocina</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🧹 Suelo sala · 🪟 Ventana cocina · 🏡 Exterior</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🧼 Mesa · 🚮 Basura · 🚪 Reja exterior · 🛋️ Acomodar sofá</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Cocina almuerzo · 🚿 Baño 1er piso · 🗑️ Tacho · 🪟 Ventanas sala</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="emoji">📅</span><span>JUEVES</span></div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Cocina cena · 🚿 Baño 2do piso · 🪜 Barrer y trapear escaleras con el pasadizo · 🏡 Exterior</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🚿 Baño 1er piso · 🧊 Refrigerador · 🧹 Suelo cocina</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Cocina almuerzo · 🧽 Tercer piso · 🧹 Suelo cocina · 🗄️ Organizar estantes de cocina</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🐾 Patio cocina · 🧹 Suelo sala · 🚮 Basura · 🧼 Mesa · 🛋️ Acomodar sofá</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="emoji">📅</span><span>VIERNES</span></div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Cocina cena · 🚿 Baño 2do piso · 🚮 Basura · 🧼 Mesa</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🍳 Cocina almuerzo · 🧹 Suelo cocina · 🗄️ Organizar estantes de cocina</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🚿 Baño 1er piso · 🧹 Suelo sala · 🪟 Ventana cocina · 🧹 Suelo cocina</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Cocina cena · 🛁 Baño completo 2do piso · 🧹 Suelo cocina · 🚿 Baño 1er piso</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="emoji">📅</span><span>SÁBADO</span></div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🚿 Baño 1er piso · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Suelo cocina</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🧽 Tercer piso · 🚿 Baño 2do piso · 🧹 Suelo cocina · 🚮 Basura</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Cocina almuerzo · 🛁 Baño completo 2do piso · 🧹 Suelo sala</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Cocina cena · 🧼 Mesa · 🗄️ Organizar estantes de cocina</div>
+  </div>
+
+  <div class="card">
+    <div class="card-head"><span class="emoji">📅</span><span>DOMINGO</span></div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🚿 Baño 2do piso · 🧊 Refrigerador · 🧼 Mesa</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🏡 Exterior · 🚿 Baño 1er piso · 🧼 Mesa</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🧹 Suelo sala · 🪟 Ventanas sala · 🍳 Cocina almuerzo</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Cocina cena · 🗑️ Tacho · 🧽 Tercer piso · 🪟 Ventana cocina</div>
+  </div>
+
 </div>
 
 <footer class="footer">
