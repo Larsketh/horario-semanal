@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Horario de Limpieza – Casa Familiar</title>
+<style>
+  @page { size: A4 landscape; margin: 8mm; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    background: #f5f7fa;
+    color: #1a1a1a;
+    padding: 20px 14px;
+    line-height: 1.4;
+  }
+  header { text-align: center; margin-bottom: 18px; }
+  h1 { font-size: 24px; color: #1e6f3c; margin-bottom: 6px; letter-spacing: 0.3px; }
+  .subtitle { font-size: 12px; color: #666; margin-bottom: 4px; }
+  .badges { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 8px; font-size: 11px; }
+  .badge {
+    background: #e8f5e9; color: #1e6f3c; padding: 3px 10px;
+    border-radius: 12px; border: 1px solid #c8e6c9; font-weight: 600;
+  }
+  .tabla-wrap {
+    overflow-x: auto; border-radius: 10px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.08); background: #fff;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 900px; }
+  th, td { border: 1px solid #d5dbe0; padding: 8px 6px; vertical-align: top; text-align: left; }
+  th {
+    background: #1e6f3c; color: #fff; font-size: 11.5px;
+    text-align: center; font-weight: 600; padding: 10px 6px;
+  }
+  td.dia {
+    font-weight: 700; background: #e8f5e9; text-align: center;
+    width: 50px; font-size: 12px; color: #1e6f3c;
+  }
+  .brak { background: #fff8e1; }
+  .belen { background: #fce4ec; }
+  .marvin { background: #e1f5fe; }
+  .andriu { background: #e8f5e9; }
+  .emerson { background: #ffe0b2; }
+  .elvira { background: #ede7f6; }
+  .footer {
+    text-align: center; font-size: 10.5px; color: #888;
+    margin-top: 16px; padding-top: 10px; border-top: 1px solid #e0e0e0;
+  }
+  @media (max-width: 700px) {
+    h1 { font-size: 18px; }
+    table { font-size: 10px; }
+    th, td { padding: 6px 4px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🏠 Horario de Limpieza – Casa Familiar</h1>
+  <p class="subtitle">Tabla oficial · Actualizada</p>
+  <div class="badges">
+    <span class="badge">✅ Elvira y Emerson exentos lun–vie</span>
+    <span class="badge">✅ Máximo 3 tareas pesadas</span>
+    <span class="badge">✅ Estufa sin cambios</span>
+  </div>
+</header>
+
+<div class="tabla-wrap">
+<table>
+  <thead>
+    <tr>
+      <th>Día</th>
+      <th>🧑‍🔧 Brak</th>
+      <th>👩 Belén</th>
+      <th>👦 Marvin</th>
+      <th>👨‍🦱 Andriu</th>
+      <th>👨‍🏭 Emerson</th>
+      <th>👩‍🍳 Elvira</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td class="dia">LUN</td>
+      <td class="brak">🍳 Cocina cena · 🔥 Estufa · 🚮 Basura · 🪟 Ventanas sala · 🛋️ Acomodar sofá</td>
+      <td class="belen">🍳 Cocina almuerzo · 🧼 Mesa · 🏡 Exterior</td>
+      <td class="marvin">🚿 Baño 2do piso · 🐾 Patio cocina · 🧹 Suelo sala</td>
+      <td class="andriu">🚿 Baño 1er piso · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo</td>
+      <td class="emerson">✅ Exento</td>
+      <td class="elvira">✅ Exenta</td>
+    </tr>
+    <tr>
+      <td class="dia">MAR</td>
+      <td class="brak">🛁 Baño completo 2do piso · 🧊 Refrigerador · 🧽 Tercer piso · 🗄️ Organizar estantes de cocina</td>
+      <td class="belen">🚿 Baño 1er piso · 🐾 Patio cocina · 🧹 Suelo sala · 🛋️ Acomodar sofá</td>
+      <td class="marvin">🍳 Cocina almuerzo · 🪜 Barrer y trapear escaleras con el pasadizo · 🧊 Refrigerador</td>
+      <td class="andriu">🍳 Cocina cena · 🚮 Basura · 🧹 Suelo sala · 🧼 Mesa</td>
+      <td class="emerson">✅ Exento</td>
+      <td class="elvira">✅ Exenta</td>
+    </tr>
+    <tr>
+      <td class="dia">MIÉ</td>
+      <td class="brak">🍳 Cocina cena · 🚿 Baño 2do piso · 🐾 Patio cocina</td>
+      <td class="belen">🧹 Suelo sala · 🪟 Ventana cocina · 🏡 Exterior</td>
+      <td class="marvin">🔥 Estufa · 🧼 Mesa · 🚮 Basura · 🚪 Reja exterior · 🛋️ Acomodar sofá</td>
+      <td class="andriu">🍳 Cocina almuerzo · 🚿 Baño 1er piso · 🗑️ Tacho · 🪟 Ventanas sala</td>
+      <td class="emerson">✅ Exento</td>
+      <td class="elvira">✅ Exenta</td>
+    </tr>
+    <tr>
+      <td class="dia">JUE</td>
+      <td class="brak">🍳 Cocina cena · 🚿 Baño 2do piso · 🪜 Barrer y trapear escaleras con el pasadizo · 🏡 Exterior</td>
+      <td class="belen">🚿 Baño 1er piso · 🧊 Refrigerador · 🧹 Suelo cocina</td>
+      <td class="marvin">🍳 Cocina almuerzo · 🧽 Tercer piso · 🧹 Suelo cocina · 🗄️ Organizar estantes de cocina</td>
+      <td class="andriu">🐾 Patio cocina · 🧹 Suelo sala · 🚮 Basura · 🧼 Mesa · 🛋️ Acomodar sofá</td>
+      <td class="emerson">✅ Exento</td>
+      <td class="elvira">✅ Exenta</td>
+    </tr>
+    <tr>
+      <td class="dia">VIE</td>
+      <td class="brak">🍳 Cocina cena · 🔥 Estufa · 🚿 Baño 2do piso · 🚮 Basura · 🧼 Mesa</td>
+      <td class="belen">🍳 Cocina almuerzo · 🔥 Estufa · 🧹 Suelo cocina · 🗄️ Organizar estantes de cocina</td>
+      <td class="marvin">🚿 Baño 1er piso · 🧹 Suelo sala · 🪟 Ventana cocina · 🧹 Suelo cocina</td>
+      <td class="andriu">🍳 Cocina cena · 🛁 Baño completo 2do piso · 🧹 Suelo cocina · 🚿 Baño 1er piso</td>
+      <td class="emerson">✅ Exento</td>
+      <td class="elvira">✅ Exenta</td>
+    </tr>
+    <tr>
+      <td class="dia">SÁB</td>
+      <td class="brak">🚿 Baño 1er piso · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Suelo cocina</td>
+      <td class="belen">🧽 Tercer piso · 🚿 Baño 2do piso · 🧹 Suelo cocina · 🚮 Basura</td>
+      <td class="marvin">🍳 Cocina almuerzo · 🛁 Baño completo 2do piso · 🧹 Suelo sala</td>
+      <td class="andriu">🍳 Cocina cena · 🔥 Estufa · 🧼 Mesa · 🗄️ Organizar estantes de cocina</td>
+      <td class="emerson">🏠 Limpieza general · 🐾 Patio cocina · 🏡 Exterior · 🛋️ Acomodar sofá</td>
+      <td class="elvira">🏠 Limpieza general · 🧽 Tercer piso · 🧹 Suelo cocina</td>
+    </tr>
+    <tr>
+      <td class="dia">DOM</td>
+      <td class="brak">🚿 Baño 2do piso · 🧊 Refrigerador · 🧼 Mesa</td>
+      <td class="belen">🏡 Exterior · 🚿 Baño 1er piso · 🧼 Mesa</td>
+      <td class="marvin">🧹 Suelo sala · 🪟 Ventanas sala · 🍳 Cocina almuerzo</td>
+      <td class="andriu">🍳 Cocina cena · 🗑️ Tacho · 🧽 Tercer piso · 🪟 Ventana cocina</td>
+      <td class="emerson">🏠 Limpieza general · 🚿 Baño 1er piso · 🧽 Tercer piso · 🚮 Basura · 🗄️ Organizar estantes de cocina</td>
+      <td class="elvira">🏠 Limpieza general · 🔥 Estufa · 🐾 Patio cocina · 🛋️ Acomodar sofá</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<footer class="footer">
+  Casa Familiar · Horario oficial 🔒
+</footer>
+
+</body>
+</html>
