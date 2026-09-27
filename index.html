@@ -26,7 +26,7 @@
     overflow-x: auto; border-radius: 10px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.08); background: #fff;
   }
-  table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 900px; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; min-width: 700px; }
   th, td { border: 1px solid #d5dbe0; padding: 8px 6px; vertical-align: top; text-align: left; }
   th {
     background: #1e6f3c; color: #fff; font-size: 11.5px;
@@ -40,15 +40,13 @@
   .belen { background: #fce4ec; }
   .marvin { background: #e1f5fe; }
   .andriu { background: #e8f5e9; }
-  .emerson { background: #ffe0b2; }
-  .elvira { background: #ede7f6; }
   .footer {
     text-align: center; font-size: 10.5px; color: #888;
     margin-top: 16px; padding-top: 10px; border-top: 1px solid #e0e0e0;
   }
   @media (max-width: 700px) {
     h1 { font-size: 18px; }
-    table { font-size: 10px; }
+    table { font-size: 10px; min-width: 500px; }
     th, td { padding: 6px 4px; }
   }
 </style>
@@ -59,9 +57,7 @@
   <h1>🏠 Horario de Limpieza – Casa Familiar</h1>
   <p class="subtitle">Tabla oficial · Actualizada</p>
   <div class="badges">
-    <span class="badge">✅ Elvira y Emerson exentos lun–vie</span>
     <span class="badge">✅ Máximo 3 tareas pesadas</span>
-    <span class="badge">✅ Estufa sin cambios</span>
   </div>
 </header>
 
@@ -74,8 +70,6 @@
       <th>👩 Belén</th>
       <th>👦 Marvin</th>
       <th>👨‍🦱 Andriu</th>
-      <th>👨‍🏭 Emerson</th>
-      <th>👩‍🍳 Elvira</th>
     </tr>
   </thead>
   <tbody>
@@ -85,8 +79,6 @@
       <td class="belen">🍳 Cocina almuerzo · 🧼 Mesa · 🏡 Exterior</td>
       <td class="marvin">🚿 Baño 2do piso · 🐾 Patio cocina · 🧹 Suelo sala</td>
       <td class="andriu">🚿 Baño 1er piso · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo</td>
-      <td class="emerson">✅ Exento</td>
-      <td class="elvira">✅ Exenta</td>
     </tr>
     <tr>
       <td class="dia">MAR</td>
@@ -94,8 +86,6 @@
       <td class="belen">🚿 Baño 1er piso · 🐾 Patio cocina · 🧹 Suelo sala · 🛋️ Acomodar sofá</td>
       <td class="marvin">🍳 Cocina almuerzo · 🪜 Barrer y trapear escaleras con el pasadizo · 🧊 Refrigerador</td>
       <td class="andriu">🍳 Cocina cena · 🚮 Basura · 🧹 Suelo sala · 🧼 Mesa</td>
-      <td class="emerson">✅ Exento</td>
-      <td class="elvira">✅ Exenta</td>
     </tr>
     <tr>
       <td class="dia">MIÉ</td>
@@ -103,8 +93,6 @@
       <td class="belen">🧹 Suelo sala · 🪟 Ventana cocina · 🏡 Exterior</td>
       <td class="marvin">🔥 Estufa · 🧼 Mesa · 🚮 Basura · 🚪 Reja exterior · 🛋️ Acomodar sofá</td>
       <td class="andriu">🍳 Cocina almuerzo · 🚿 Baño 1er piso · 🗑️ Tacho · 🪟 Ventanas sala</td>
-      <td class="emerson">✅ Exento</td>
-      <td class="elvira">✅ Exenta</td>
     </tr>
     <tr>
       <td class="dia">JUE</td>
@@ -112,8 +100,6 @@
       <td class="belen">🚿 Baño 1er piso · 🧊 Refrigerador · 🧹 Suelo cocina</td>
       <td class="marvin">🍳 Cocina almuerzo · 🧽 Tercer piso · 🧹 Suelo cocina · 🗄️ Organizar estantes de cocina</td>
       <td class="andriu">🐾 Patio cocina · 🧹 Suelo sala · 🚮 Basura · 🧼 Mesa · 🛋️ Acomodar sofá</td>
-      <td class="emerson">✅ Exento</td>
-      <td class="elvira">✅ Exenta</td>
     </tr>
     <tr>
       <td class="dia">VIE</td>
@@ -121,8 +107,6 @@
       <td class="belen">🍳 Cocina almuerzo · 🔥 Estufa · 🧹 Suelo cocina · 🗄️ Organizar estantes de cocina</td>
       <td class="marvin">🚿 Baño 1er piso · 🧹 Suelo sala · 🪟 Ventana cocina · 🧹 Suelo cocina</td>
       <td class="andriu">🍳 Cocina cena · 🛁 Baño completo 2do piso · 🧹 Suelo cocina · 🚿 Baño 1er piso</td>
-      <td class="emerson">✅ Exento</td>
-      <td class="elvira">✅ Exenta</td>
     </tr>
     <tr>
       <td class="dia">SÁB</td>
@@ -130,8 +114,6 @@
       <td class="belen">🧽 Tercer piso · 🚿 Baño 2do piso · 🧹 Suelo cocina · 🚮 Basura</td>
       <td class="marvin">🍳 Cocina almuerzo · 🛁 Baño completo 2do piso · 🧹 Suelo sala</td>
       <td class="andriu">🍳 Cocina cena · 🔥 Estufa · 🧼 Mesa · 🗄️ Organizar estantes de cocina</td>
-      <td class="emerson">🏠 Limpieza general · 🐾 Patio cocina · 🏡 Exterior · 🛋️ Acomodar sofá</td>
-      <td class="elvira">🏠 Limpieza general · 🧽 Tercer piso · 🧹 Suelo cocina</td>
     </tr>
     <tr>
       <td class="dia">DOM</td>
@@ -139,8 +121,6 @@
       <td class="belen">🏡 Exterior · 🚿 Baño 1er piso · 🧼 Mesa</td>
       <td class="marvin">🧹 Suelo sala · 🪟 Ventanas sala · 🍳 Cocina almuerzo</td>
       <td class="andriu">🍳 Cocina cena · 🗑️ Tacho · 🧽 Tercer piso · 🪟 Ventana cocina</td>
-      <td class="emerson">🏠 Limpieza general · 🚿 Baño 1er piso · 🧽 Tercer piso · 🚮 Basura · 🗄️ Organizar estantes de cocina</td>
-      <td class="elvira">🏠 Limpieza general · 🔥 Estufa · 🐾 Patio cocina · 🛋️ Acomodar sofá</td>
     </tr>
   </tbody>
 </table>
