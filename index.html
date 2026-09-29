@@ -53,71 +53,18 @@
     transition:background .3s ease,color .3s ease;
   }
 
-  header{
-    max-width:1280px;
-    margin:0 auto 28px;
-    text-align:center;
-  }
-  h1{
-    font-size:26px;
-    font-weight:700;
-    color:var(--brand);
-    margin-bottom:6px;
-    letter-spacing:-.3px;
-  }
-  .subtitle{
-    font-size:13px;
-    color:var(--text-soft);
-    font-weight:500;
-  }
+  header{max-width:1280px;margin:0 auto 28px;text-align:center}
+  h1{font-size:26px;font-weight:700;color:var(--brand);margin-bottom:6px;letter-spacing:-.3px}
+  .subtitle{font-size:13px;color:var(--text-soft);font-weight:500}
 
-  .tabla-wrap{
-    max-width:1280px;
-    margin:0 auto;
-    background:var(--card);
-    border-radius:16px;
-    box-shadow:var(--shadow);
-    overflow:hidden;
-    transition:background .3s ease;
-  }
-  table{
-    width:100%;
-    border-collapse:separate;
-    border-spacing:0;
-    font-size:13.5px;
-  }
-  th{
-    background:var(--brand);
-    color:#fff;
-    font-size:13px;
-    font-weight:600;
-    padding:16px 14px;
-    text-align:center;
-    letter-spacing:.3px;
-    position:sticky;
-    top:0;
-    z-index:2;
-  }
+  .tabla-wrap{max-width:1280px;margin:0 auto;background:var(--card);border-radius:16px;box-shadow:var(--shadow);overflow:hidden;transition:background .3s ease}
+  table{width:100%;border-collapse:separate;border-spacing:0;font-size:13.5px}
+  th{background:var(--brand);color:#fff;font-size:13px;font-weight:600;padding:16px 14px;text-align:center;letter-spacing:.3px;position:sticky;top:0;z-index:2}
   th:first-child{border-top-left-radius:16px}
   th:last-child{border-top-right-radius:16px}
-  td{
-    padding:16px 14px;
-    vertical-align:top;
-    border-bottom:1px solid var(--line);
-    color:var(--text);
-    line-height:1.6;
-    transition:background .15s ease;
-  }
+  td{padding:16px 14px;vertical-align:top;border-bottom:1px solid var(--line);color:var(--text);line-height:1.6;transition:background .15s ease}
   tr:last-child td{border-bottom:none}
-  td.dia{
-    font-weight:700;
-    text-align:center;
-    width:70px;
-    font-size:14px;
-    color:var(--brand);
-    background:var(--brand-soft);
-    letter-spacing:.5px;
-  }
+  td.dia{font-weight:700;text-align:center;width:70px;font-size:14px;color:var(--brand);background:var(--brand-soft);letter-spacing:.5px}
   .brak{background:var(--brak)}
   .belen{background:var(--belen)}
   .marvin{background:var(--marvin)}
@@ -126,16 +73,7 @@
 
   .cards{display:none}
 
-  .footer{
-    max-width:1280px;
-    margin:28px auto 0;
-    text-align:center;
-    font-size:12px;
-    color:var(--text-soft);
-    padding-top:18px;
-    border-top:1px solid var(--line);
-    letter-spacing:.3px;
-  }
+  .footer{max-width:1280px;margin:28px auto 0;text-align:center;font-size:12px;color:var(--text-soft);padding-top:18px;border-top:1px solid var(--line);letter-spacing:.3px}
 
   @media (max-width:820px){
     body{padding:22px 14px 32px;font-size:14.5px}
@@ -143,46 +81,12 @@
     .subtitle{font-size:12px}
     .tabla-wrap{display:none}
     .cards{display:block;max-width:640px;margin:0 auto}
-
-    .card{
-      background:var(--card);
-      border-radius:14px;
-      box-shadow:var(--shadow);
-      margin-bottom:14px;
-      overflow:hidden;
-      transition:transform .15s ease,box-shadow .15s ease;
-    }
-    .card-head{
-      background:var(--brand);
-      color:#fff;
-      padding:13px 18px;
-      font-weight:700;
-      font-size:14.5px;
-      letter-spacing:.6px;
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .card-head .icon{
-      font-size:16px;
-      opacity:.9;
-    }
-    .persona{
-      padding:13px 18px;
-      border-bottom:1px solid var(--line);
-      font-size:13.5px;
-      line-height:1.6;
-    }
+    .card{background:var(--card);border-radius:14px;box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;transition:transform .15s ease,box-shadow .15s ease}
+    .card-head{background:var(--brand);color:#fff;padding:13px 18px;font-weight:700;font-size:14.5px;letter-spacing:.6px;display:flex;align-items:center;gap:10px}
+    .card-head .icon{font-size:16px;opacity:.9}
+    .persona{padding:13px 18px;border-bottom:1px solid var(--line);font-size:13.5px;line-height:1.6}
     .persona:last-child{border-bottom:none}
-    .persona .nombre{
-      display:block;
-      font-weight:700;
-      font-size:12.5px;
-      margin-bottom:4px;
-      color:var(--text-soft);
-      letter-spacing:.3px;
-      text-transform:uppercase;
-    }
+    .persona .nombre{display:block;font-weight:700;font-size:12.5px;margin-bottom:4px;color:var(--text-soft);letter-spacing:.3px;text-transform:uppercase}
     .brak-bg{background:var(--brak)}
     .belen-bg{background:var(--belen)}
     .marvin-bg{background:var(--marvin)}
@@ -223,52 +127,52 @@
   <tbody>
     <tr>
       <td class="dia">LUN</td>
-      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🪟 Ventanas sala · 🛋️ Acomodar sofá</td>
-      <td class="belen">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🏡 Exterior · 🔥 Limpiar la estufa de la cocina</td>
-      <td class="marvin">🚿 Baño 2do piso · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox</td>
-      <td class="andriu">🚿 Baño 1er piso · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo · 🧹 Barrer y trapear la cocina</td>
+      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🪟 Ventanas sala · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="belen">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🏡 Exterior · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="marvin">🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="andriu">🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
     </tr>
     <tr>
       <td class="dia">MAR</td>
-      <td class="brak">🛁 Baño completo 2do piso · 🧊 Refrigerador · 🧽 Tercer piso · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado</td>
-      <td class="belen">🚿 Baño 1er piso · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🛋️ Acomodar sofá</td>
-      <td class="marvin">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🪜 Barrer y trapear escaleras con el pasadizo · 🧊 Refrigerador · 🔥 Limpiar la estufa de la cocina</td>
-      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🧼 Limpiar mesa del comedor y sillas · 🧹 Barrer y trapear la cocina</td>
+      <td class="brak">🛁 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🧽 Tercer piso · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="belen">🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="marvin">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🪜 Barrer y trapear escaleras con el pasadizo · 🧊 Refrigerador · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
     </tr>
     <tr>
       <td class="dia">MIÉ</td>
-      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Baño 2do piso · 🐾 Patio cocina · 🔥 Limpiar la estufa de la cocina</td>
-      <td class="belen">🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🏡 Exterior</td>
-      <td class="marvin">🧼 Limpiar mesa del comedor y sillas · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🚪 Reja exterior · 🛋️ Acomodar sofá · 🧹 Barrer y trapear la cocina</td>
-      <td class="andriu">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🚿 Baño 1er piso · 🗑️ Tacho · 🪟 Ventanas sala</td>
+      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="belen">🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🏡 Exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="marvin">🧼 Limpiar mesa del comedor y sillas · 🚪 Reja exterior · 🛋️ Acomodar sofá · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="andriu">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Tacho · 🪟 Ventanas sala · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
     </tr>
     <tr>
       <td class="dia">JUE</td>
-      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Baño 2do piso · 🪜 Barrer y trapear escaleras con el pasadizo · 🏡 Exterior</td>
-      <td class="belen">🚿 Baño 1er piso · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina</td>
-      <td class="marvin">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧽 Tercer piso · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🔥 Limpiar la estufa de la cocina</td>
-      <td class="andriu">🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🧼 Limpiar mesa del comedor y sillas · 🛋️ Acomodar sofá</td>
+      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🪜 Barrer y trapear escaleras con el pasadizo · 🏡 Exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="belen">🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="marvin">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧽 Tercer piso · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="andriu">🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🧼 Limpiar mesa del comedor y sillas · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
     </tr>
     <tr>
       <td class="dia">VIE</td>
-      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Baño 2do piso · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🧼 Limpiar mesa del comedor y sillas</td>
-      <td class="belen">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado</td>
-      <td class="marvin">🚿 Baño 1er piso · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🧹 Barrer y trapear la cocina</td>
-      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🛁 Baño completo 2do piso · 🧹 Barrer y trapear la cocina · 🚿 Baño 1er piso · 🔥 Limpiar la estufa de la cocina</td>
+      <td class="brak">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧼 Limpiar mesa del comedor y sillas · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="belen">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="marvin">🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🛁 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
     </tr>
     <tr>
       <td class="dia">SÁB</td>
-      <td class="brak">🚿 Baño 1er piso · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🔥 Limpiar la estufa de la cocina</td>
-      <td class="belen">🧽 Tercer piso · 🚿 Baño 2do piso · 🧹 Barrer y trapear la cocina · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva</td>
-      <td class="marvin">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🛁 Baño completo 2do piso · 🧹 Barrer y trapear la sala con clorox</td>
-      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado</td>
+      <td class="brak">🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="belen">🧽 Tercer piso · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="marvin">🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🛁 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
     </tr>
     <tr>
       <td class="dia">DOM</td>
-      <td class="brak">🚿 Baño 2do piso · 🧊 Refrigerador · 🧼 Limpiar mesa del comedor y sillas</td>
-      <td class="belen">🏡 Exterior · 🚿 Baño 1er piso · 🧼 Limpiar mesa del comedor y sillas · 🧹 Barrer y trapear la cocina</td>
-      <td class="marvin">🧹 Barrer y trapear la sala con clorox · 🪟 Ventanas sala · 🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva</td>
-      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧽 Tercer piso · 🪟 Ventana cocina · 🔥 Limpiar la estufa de la cocina</td>
+      <td class="brak">🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🧼 Limpiar mesa del comedor y sillas · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="belen">🏡 Exterior · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧼 Limpiar mesa del comedor y sillas · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="marvin">🧹 Barrer y trapear la sala con clorox · 🪟 Ventanas sala · 🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
+      <td class="andriu">🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧽 Tercer piso · 🪟 Ventana cocina · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</td>
     </tr>
   </tbody>
 </table>
@@ -279,65 +183,46 @@
 
   <div class="card">
     <div class="card-head"><span class="icon">📅</span>LUNES</div>
-    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🪟 Ventanas sala · 🛋️ Acomodar sofá</div>
-    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🏡 Exterior · 🔥 Limpiar la estufa de la cocina</div>
-    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🚿 Baño 2do piso · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox</div>
-    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🚿 Baño 1er piso · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo · 🧹 Barrer y trapear la cocina</div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🪟 Ventanas sala · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🏡 Exterior · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
   </div>
 
   <div class="card">
     <div class="card-head"><span class="icon">📅</span>MARTES</div>
-    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🛁 Baño completo 2do piso · 🧊 Refrigerador · 🧽 Tercer piso · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado</div>
-    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🚿 Baño 1er piso · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🛋️ Acomodar sofá</div>
-    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🪜 Barrer y trapear escaleras con el pasadizo · 🧊 Refrigerador · 🔥 Limpiar la estufa de la cocina</div>
-    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🧼 Limpiar mesa del comedor y sillas · 🧹 Barrer y trapear la cocina</div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🛁 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🧽 Tercer piso · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🪜 Barrer y trapear escaleras con el pasadizo · 🧊 Refrigerador · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
   </div>
 
   <div class="card">
     <div class="card-head"><span class="icon">📅</span>MIÉRCOLES</div>
-    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Baño 2do piso · 🐾 Patio cocina · 🔥 Limpiar la estufa de la cocina</div>
-    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🏡 Exterior</div>
-    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🧼 Limpiar mesa del comedor y sillas · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🚪 Reja exterior · 🛋️ Acomodar sofá · 🧹 Barrer y trapear la cocina</div>
-    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🚿 Baño 1er piso · 🗑️ Tacho · 🪟 Ventanas sala</div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🏡 Exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🧼 Limpiar mesa del comedor y sillas · 🚪 Reja exterior · 🛋️ Acomodar sofá · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Tacho · 🪟 Ventanas sala · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
   </div>
 
   <div class="card">
     <div class="card-head"><span class="icon">📅</span>JUEVES</div>
-    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Baño 2do piso · 🪜 Barrer y trapear escaleras con el pasadizo · 🏡 Exterior</div>
-    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🚿 Baño 1er piso · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina</div>
-    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧽 Tercer piso · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🔥 Limpiar la estufa de la cocina</div>
-    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🧼 Limpiar mesa del comedor y sillas · 🛋️ Acomodar sofá</div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🪜 Barrer y trapear escaleras con el pasadizo · 🏡 Exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧽 Tercer piso · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🧼 Limpiar mesa del comedor y sillas · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
   </div>
 
   <div class="card">
     <div class="card-head"><span class="icon">📅</span>VIERNES</div>
-    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Baño 2do piso · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva · 🧼 Limpiar mesa del comedor y sillas</div>
-    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado</div>
-    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🚿 Baño 1er piso · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🧹 Barrer y trapear la cocina</div>
-    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🛁 Baño completo 2do piso · 🧹 Barrer y trapear la cocina · 🚿 Baño 1er piso · 🔥 Limpiar la estufa de la cocina</div>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧼 Limpiar mesa del comedor y sillas · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventana cocina · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🛁 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
   </div>
 
   <div class="card">
     <div class="card-head"><span class="icon">📅</span>SÁBADO</div>
-    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🚿 Baño 1er piso · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🔥 Limpiar la estufa de la cocina</div>
-    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🧽 Tercer piso · 🚿 Baño 2do piso · 🧹 Barrer y trapear la cocina · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva</div>
-    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🛁 Baño completo 2do piso · 🧹 Barrer y trapear la sala con clorox</div>
-    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado</div>
-  </div>
-
-  <div class="card">
-    <div class="card-head"><span class="icon">📅</span>DOMINGO</div>
-    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🚿 Baño 2do piso · 🧊 Refrigerador · 🧼 Limpiar mesa del comedor y sillas</div>
-    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🏡 Exterior · 🚿 Baño 1er piso · 🧼 Limpiar mesa del comedor y sillas · 🧹 Barrer y trapear la cocina</div>
-    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🧹 Barrer y trapear la sala con clorox · 🪟 Ventanas sala · 🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🚮 Sacar la basura del día al basurero y lavar con clorox y colocar bolsa nueva</div>
-    <div class="persona andriu-bg"><span class="nombre">👨‍🦱 Andriu</span>🍳 Lavar ollas y utensilios de la cena con limpiar las puertas de los gabinetes y lados · 🧽 Tercer piso · 🪟 Ventana cocina · 🔥 Limpiar la estufa de la cocina</div>
-  </div>
-
-</div>
-
-<footer class="footer">
-  Casa Familiar · Horario oficial 🔒
-</footer>
-
-</body>
-</html>
+    <div class="persona brak-bg"><span class="nombre">🧑‍🔧 Brak</span>🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🔥 Limpiar la estufa de la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona belen-bg"><span class="nombre">👩 Belén</span>🧽 Tercer piso · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)</div>
+    <div class="persona marvin-bg"><span class="nombre">👦 Marvin</span>🍳 Lavar ollas y utensilios del almuerzo con limpiar las puertas de los gabinetes y lados · 🛁 Barrer 
