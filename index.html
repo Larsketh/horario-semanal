@@ -73,10 +73,9 @@ tr:last-child td{border-bottom:none}
 td.dia{text-align:center;width:48px;padding:12px 4px;background:var(--brand2);letter-spacing:0;font-weight:700;vertical-align:middle}
 .dia-letras{display:inline-flex;flex-direction:column;align-items:center;gap:1px;line-height:1.05;font-size:18px;font-weight:800;color:inherit}
 .dia-letras span{display:block;text-align:center;width:100%}
-
-/* ===== TAREAS CON COLORES ===== */
 .tarea-linea{display:block;padding:4px 8px;line-height:1.45;border-radius:6px;border-left:4px solid;margin:3px 0;font-size:12.5px}
 .t-cocina{background:#fff3e0;border-color:#ef6c00;color:#5d2c00}
+.t-cena{background:#e8eaf6;border-color:#1a237e;color:#0d1448}
 .t-estufa{background:#ffebee;border-color:#c62828;color:#7f0000}
 .t-bano{background:#e3f2fd;border-color:#1565c0;color:#0d47a1}
 .t-refri{background:#e0f7fa;border-color:#00838f;color:#006064}
@@ -93,9 +92,9 @@ td.dia{text-align:center;width:48px;padding:12px 4px;background:var(--brand2);le
 .t-objetos{background:#ede7f6;border-color:#4527a0;color:#311b92}
 .t-tacho{background:#f5f5f5;border-color:#424242;color:#212121}
 .t-sala{background:#ede7f6;border-color:#7b1fa2;color:#4a148c}
-
 @media(prefers-color-scheme:dark){
 .t-cocina{background:#3d2817;border-color:#ff9800;color:#ffcc80}
+.t-cena{background:#0d1448;border-color:#5c6bc0;color:#9fa8da}
 .t-estufa{background:#3d1515;border-color:#ef5350;color:#ef9a9a}
 .t-bano{background:#0d2238;border-color:#42a5f5;color:#90caf9}
 .t-refri{background:#003437;border-color:#26c6da;color:#80deea}
@@ -113,7 +112,6 @@ td.dia{text-align:center;width:48px;padding:12px 4px;background:var(--brand2);le
 .t-tacho{background:#1c1c1c;border-color:#757575;color:#bdbdbd}
 .t-sala{background:#2a0f3a;border-color:#ba68c8;color:#e1bee7}
 }
-
 .brak{background:var(--brak)}
 .belen{background:var(--belen)}
 .marvin{background:var(--marvin)}
@@ -190,7 +188,6 @@ body{padding:22px 14px 32px;font-size:14.5px}h1{font-size:21px}.subtitle{font-si
 <script>
 (function(){
 "use strict";
-
 var tbody=document.getElementById("tbody");
 var cards=document.getElementById("cards");
 var pillDia=document.getElementById("pillDia");
@@ -225,13 +222,12 @@ var MOMENTOS=[
 {ini:0,fin:5,emoji:"🌜",tip:"Madrugada: descanso. Mañana empieza un nuevo día de tareas."}
 ];
 
-// Mapeo emoji → clase color
 function clasePorTarea(texto){
   var t=texto.trim();
+  if(t.indexOf("🍳 Lavar ollas y utensilios de la cena")===0) return "t-cena";
   if(t.indexOf("🍳")===0) return "t-cocina";
   if(t.indexOf("🔥")===0) return "t-estufa";
-  if(t.indexOf("🚿")===0) return "t-bano";
-  if(t.indexOf("🛁")===0) return "t-bano";
+  if(t.indexOf("🚿")===0||t.indexOf("🛁")===0) return "t-bano";
   if(t.indexOf("🧊")===0) return "t-refri";
   if(t.indexOf("🐾")===0) return "t-patio";
   if(t.indexOf("🪜")===0) return "t-escaleras";
@@ -330,7 +326,7 @@ andriu:"🧹 Barrer y trapear la cocina · 🧊 Refrigerador · 🧼 Limpiar mes
 brak:"🔥 Limpiar la estufa de la cocina · 🧊 Refrigerador · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🧹 Barrer y trapear la cocina · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
+andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"MIÉ",num:3,nombre:"MIÉRCOLES",
 brak:"🧹 Barrer y trapear la cocina · 🧊 Refrigerador · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪟 Ventanas sala · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
@@ -343,7 +339,7 @@ marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiert
 andriu:"🐾 Patio cocina · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"VIE",num:5,nombre:"VIERNES",
 brak:"🔥 Limpiar la estufa de la cocina · 🧹 Barrer y trapear la sala con clorox · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🐾 Patio cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🚮 Botar la basura de hoy en la noche (todos juntos)",
+belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🐾 Patio cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🪟 Ventana cocina · 🚪 Reja exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧊 Refrigerador · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"SÁB",num:6,nombre:"SÁBADO",
@@ -355,7 +351,7 @@ andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos
 brak:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🏡 Exterior · 🧹 Barrer y trapear la cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧹 Barrer y trapear la sala con clorox · 🐾 Patio cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🔥 Limpiar la estufa de la cocina · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)"}
+andriu:"🔥 Limpiar la estufa de la cocina · 🧽 Tercer piso · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)"}
 ];
 
 var TAREAS_HOR=[];
@@ -417,30 +413,13 @@ tbody.appendChild(fragT);
 cards.appendChild(fragC);
 })();
 
-function obtenerMomento(h){
-for(var i=0;i<MOMENTOS.length;i++){if(h>=MOMENTOS[i].ini&&h<MOMENTOS[i].fin)return MOMENTOS[i];}
-return MOMENTOS[0];
-}
+function obtenerMomento(h){for(var i=0;i<MOMENTOS.length;i++){if(h>=MOMENTOS[i].ini&&h<MOMENTOS[i].fin)return MOMENTOS[i];}return MOMENTOS[0];}
 function animar(el,c){el.classList.remove(c);void el.offsetWidth;el.classList.add(c);}
-function reordenar(hoy){
-var arr=Array.prototype.slice.call(cards.children);
-arr.sort(function(a,b){
-var da=+a.dataset.dia,db=+b.dataset.dia;
-return ((da-hoy+7)%7)-((db-hoy+7)%7);
-});
-for(var i=0;i<arr.length;i++)cards.appendChild(arr[i]);
-}
-function formatearHora(h,min){
-var h12=h%12||12;
-var mm=String(min).padStart(2,"0");
-var ampm=h<12?"AM":"PM";
-return h12+":"+mm+" "+ampm;
-}
+function reordenar(hoy){var arr=Array.prototype.slice.call(cards.children);arr.sort(function(a,b){var da=+a.dataset.dia,db=+b.dataset.dia;return ((da-hoy+7)%7)-((db-hoy+7)%7);});for(var i=0;i<arr.length;i++)cards.appendChild(arr[i]);}
+function formatearHora(h,min){var h12=h%12||12;var mm=String(min).padStart(2,"0");var ampm=h<12?"AM":"PM";return h12+":"+mm+" "+ampm;}
 
 function calcularActivas(minA){
-var res=[];
-var hoy=new Date().getDay();
-var dd=null;
+var res=[];var hoy=new Date().getDay();var dd=null;
 for(var i=0;i<DATA.length;i++){if(DATA[i].num===hoy){dd=DATA[i];break;}}
 if(!dd) return res;
 for(var j=0;j<PERSONAS.length;j++){
@@ -459,8 +438,7 @@ return res;
 }
 
 function calcularProxima(minA){
-var hoy=new Date().getDay();
-var dd=null;
+var hoy=new Date().getDay();var dd=null;
 for(var i=0;i<DATA.length;i++){if(DATA[i].num===hoy){dd=DATA[i];break;}}
 if(!dd) return null;
 var prox=null;
@@ -469,20 +447,14 @@ var p=PERSONAS[j], texto=textoParaColumna(dd,j);
 for(var k=0;k<TAREAS_HOR.length;k++){
 var t=TAREAS_HOR[k];
 if(texto.indexOf(t.match)!==-1 && t.ini>minA){
-if(!prox || t.ini<prox.ini){
-prox={label:t.label,emoji:t.emoji,persona:p.nombre,ini:t.ini};
-}
+if(!prox || t.ini<prox.ini){prox={label:t.label,emoji:t.emoji,persona:p.nombre,ini:t.ini};}
 }
 }
 }
 return prox;
 }
 
-function calcularCeldasActivas(activas){
-var res={};
-for(var i=0;i<activas.length;i++){res[activas[i].personaKey]=true;}
-return res;
-}
+function calcularCeldasActivas(activas){var res={};for(var i=0;i<activas.length;i++){res[activas[i].personaKey]=true;}return res;}
 
 function actualizarBanner(activas,minA){
 if(activas.length===0){
@@ -490,10 +462,7 @@ alertBox.classList.add("vacio");
 alertTitle.textContent="Sin zonas en uso ahora";
 var prox=calcularProxima(minA);
 var html='<div class="alert-vacio-msg">✅ Ninguna zona en uso en este momento</div>';
-if(prox){
-var fh=Math.floor(prox.ini/60),fm=prox.ini%60;
-html+='<div class="alert-vacio-prox">⏳ Próxima tarea: '+prox.emoji+' '+prox.label+' → '+prox.persona+' a las '+formatearHora(fh,fm)+'</div>';
-}
+if(prox){var fh=Math.floor(prox.ini/60),fm=prox.ini%60;html+='<div class="alert-vacio-prox">⏳ Próxima tarea: '+prox.emoji+' '+prox.label+' → '+prox.persona+' a las '+formatearHora(fh,fm)+'</div>';}
 alertList.innerHTML=html;
 alertTip.style.display="none";
 return;
@@ -505,12 +474,7 @@ for(var i=0;i<activas.length;i++){
 var a=activas[i];
 var fh=Math.floor(a.fin/60), fm=a.fin%60;
 var finStr=formatearHora(fh,fm);
-html+='<div class="alert-item">';
-html+='<span class="alert-emoji">'+a.emoji+'</span>';
-html+='<span class="alert-zona">'+a.label+'</span>';
-html+='<span class="alert-quien">→ '+a.persona+'</span>';
-html+='<span class="alert-time">⏳ '+a.restantes+' min · hasta '+finStr+'</span>';
-html+='</div>';
+html+='<div class="alert-item"><span class="alert-emoji">'+a.emoji+'</span><span class="alert-zona">'+a.label+'</span><span class="alert-quien">→ '+a.persona+'</span><span class="alert-time">⏳ '+a.restantes+' min · hasta '+finStr+'</span></div>';
 }
 alertList.innerHTML=html;
 alertTip.style.display="block";
@@ -527,15 +491,8 @@ var td=tr.children[j];
 var key=PERSONAS[j-1].key;
 var era=td.dataset.activa==="1";
 var es=esHoy && activasKeys[key];
-if(es && !era){
-td.classList.add("activa");
-td.dataset.activa="1";
-td.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+td.dataset.originalHTML;
-} else if(!es && era){
-td.classList.remove("activa");
-td.dataset.activa="0";
-td.innerHTML=td.dataset.originalHTML;
-}
+if(es && !era){td.classList.add("activa");td.dataset.activa="1";td.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+td.dataset.originalHTML;}
+else if(!es && era){td.classList.remove("activa");td.dataset.activa="0";td.innerHTML=td.dataset.originalHTML;}
 }
 }
 }
@@ -552,15 +509,8 @@ var p=personas[j];
 var key=p.dataset.key;
 var era=p.dataset.activa==="1";
 var es=esHoy && activasKeys[key];
-if(es && !era){
-p.classList.add("activa");
-p.dataset.activa="1";
-p.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+p.dataset.originalHTML;
-} else if(!es && era){
-p.classList.remove("activa");
-p.dataset.activa="0";
-p.innerHTML=p.dataset.originalHTML;
-}
+if(es && !era){p.classList.add("activa");p.dataset.activa="1";p.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+p.dataset.originalHTML;}
+else if(!es && era){p.classList.remove("activa");p.dataset.activa="0";p.innerHTML=p.dataset.originalHTML;}
 }
 }
 }
@@ -575,9 +525,7 @@ for(var j=0;j<PERSONAS.length;j++){
 var p=PERSONAS[j];
 var texto=textoParaColumna(dd,j);
 var resumen=texto.split(" · ").map(function(t){return t.split(" ").slice(0,3).join(" ");}).join(" · ");
-html+='<div class="hoy-item '+p.hoyBg+'">';
-html+='<div style="flex:1"><span class="hoy-name">'+p.nombre+'</span><span class="hoy-tasks">'+resumen+'</span></div>';
-html+='</div>';
+html+='<div class="hoy-item '+p.hoyBg+'"><div style="flex:1"><span class="hoy-name">'+p.nombre+'</span><span class="hoy-tasks">'+resumen+'</span></div></div>';
 }
 hoyList.innerHTML=html;
 }
@@ -592,21 +540,10 @@ var min=ahora.getMinutes();
 var minA=h*60+min;
 var hStr=formatearHora(h,min);
 
-if(hStr!==ultHora){
-ultHora=hStr;
-pillHora.textContent="⏰ "+hStr;
-animar(pillHora,"tick");
-}
+if(hStr!==ultHora){ultHora=hStr;pillHora.textContent="⏰ "+hStr;animar(pillHora,"tick");}
 
 var m=obtenerMomento(h);
-if(m.tip!==ultTip){
-ultTip=m.tip;
-tipBox.classList.remove("cambia");
-void tipBox.offsetWidth;
-tipIcon.textContent=m.emoji;
-tipText.textContent=m.tip;
-tipBox.classList.add("cambia");
-}
+if(m.tip!==ultTip){ultTip=m.tip;tipBox.classList.remove("cambia");void tipBox.offsetWidth;tipIcon.textContent=m.emoji;tipText.textContent=m.tip;tipBox.classList.add("cambia");}
 
 var hoy=ahora.getDay();
 if(hoy!==ultDia){
@@ -631,31 +568,19 @@ var keys=calcularCeldasActivas(activas);
 actualizarBanner(activas,minA);
 actualizarCeldas(keys);
 actualizarPersonas(keys);
-
-}catch(e){
-if(window.console&&console.warn)console.warn("Error:",e);
-}
+}catch(e){if(window.console&&console.warn)console.warn("Error:",e);}
 }
 
 var intervalo=null;
 var INTERVALO_MS=30000;
 function iniciar(){if(intervalo)return;intervalo=setInterval(actualizar,INTERVALO_MS);}
 function detener(){if(intervalo){clearInterval(intervalo);intervalo=null;}}
-
-if(document.hidden!==undefined){
-document.addEventListener("visibilitychange",function(){
-if(document.hidden){detener();}
-else{actualizar();iniciar();}
-});
-}
+if(document.hidden!==undefined){document.addEventListener("visibilitychange",function(){if(document.hidden){detener();}else{actualizar();iniciar();}});}
 
 pillSemana.textContent="📆 Rotación "+(SEMANA_ROT+1)+"/4";
-
 actualizar();
 iniciar();
-
 })();
 </script>
-
 </body>
 </html>
