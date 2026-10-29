@@ -71,9 +71,9 @@ th:last-child{border-top-right-radius:16px}
 td{padding:16px 14px;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.6;transition:background .3s;position:relative}
 tr:last-child td{border-bottom:none}
 
-/* ===== DÍA VERTICAL CON NOMBRE COMPLETO ===== */
-td.dia{text-align:center;width:30px;padding:10px 2px;background:var(--brand2);letter-spacing:0;font-weight:700;vertical-align:middle}
-.dia-letras{display:inline-flex;flex-direction:column;align-items:center;gap:0;line-height:1.05;font-size:12px;font-weight:700;color:inherit}
+/* ===== DÍA VERTICAL CON NOMBRE COMPLETO GRANDE ===== */
+td.dia{text-align:center;width:48px;padding:12px 4px;background:var(--brand2);letter-spacing:0;font-weight:700;vertical-align:middle}
+.dia-letras{display:inline-flex;flex-direction:column;align-items:center;gap:1px;line-height:1.05;font-size:18px;font-weight:800;color:inherit}
 .dia-letras span{display:block;text-align:center;width:100%}
 
 /* ===== TAREAS EN LÍNEAS SEPARADAS ===== */
@@ -226,7 +226,6 @@ function textoParaColumna(data,colIndex){
   return texto;
 }
 
-// Convierte texto con " · " en HTML con <span class="tarea-linea">
 function formatearTareasHTML(texto){
   if(!texto) return "";
   var partes=texto.split(" · ");
@@ -239,7 +238,6 @@ function formatearTareasHTML(texto){
   return html;
 }
 
-// Nombre completo del día en vertical
 function diaVertical(nombre){
   var html='<span class="dia-letras">';
   for(var i=0;i<nombre.length;i++){
@@ -327,7 +325,6 @@ tr.innerHTML=ht;
 for(var j=0;j<PERSONAS.length;j++){
   var td=tr.children[j+1];
   td.dataset.originalHTML=td.innerHTML;
-  td.dataset.originalText=txt;
   td.dataset.activa="0";
 }
 fragT.appendChild(tr);
