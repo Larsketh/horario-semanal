@@ -70,16 +70,11 @@ th:first-child{border-top-left-radius:16px}
 th:last-child{border-top-right-radius:16px}
 td{padding:16px 14px;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.6;transition:background .3s;position:relative}
 tr:last-child td{border-bottom:none}
-
-/* ===== DÍA VERTICAL CON NOMBRE COMPLETO GRANDE ===== */
 td.dia{text-align:center;width:48px;padding:12px 4px;background:var(--brand2);letter-spacing:0;font-weight:700;vertical-align:middle}
 .dia-letras{display:inline-flex;flex-direction:column;align-items:center;gap:1px;line-height:1.05;font-size:18px;font-weight:800;color:inherit}
 .dia-letras span{display:block;text-align:center;width:100%}
-
-/* ===== TAREAS EN LÍNEAS SEPARADAS ===== */
 .tarea-linea{display:block;padding:2px 0;line-height:1.45}
 .tarea-linea + .tarea-linea{margin-top:1px}
-
 .brak{background:var(--brak)}
 .belen{background:var(--belen)}
 .marvin{background:var(--marvin)}
@@ -207,21 +202,43 @@ function getSemanaAnio(){
   return Math.floor(dias/7);
 }
 var SEMANA_ROT=getSemanaAnio()%4;
+var ES_PAR = SEMANA_ROT % 2 === 0;
 
 function personaDeColumna(colIndex){
   return PERSONAS_BASE[(colIndex-SEMANA_ROT+4)%4];
 }
+
+var TEXTO_ALMUERZO="🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados";
+
+// Almuerzo independiente: solo Belén y Marvin, alternando semanalmente
+function getQuienHaceAlmuerzo(diaNum){
+  var asignacion={
+    1:["belen","marvin"],   // LUN
+    2:["marvin","belen"],   // MAR
+    3:["belen","marvin"],   // MIÉ
+    4:["marvin","belen"],   // JUE
+    5:["belen","marvin"],   // VIE
+    6:["marvin","belen"],   // SÁB
+    0:["belen","marvin"]    // DOM
+  };
+  return asignacion[diaNum][ES_PAR?0:1];
+}
+
 function quitarCocinaAlmuerzo(texto){
   if(!texto) return texto;
   var regex=/🍳 Lavar ollas y utensilios del almuerzo.*?con limpiar las puertas de los gabinetes y lados\s*(·\s*)?/g;
   return texto.replace(regex,"").replace(/^·\s*/,"").replace(/·\s*$/,"").trim();
 }
+
 function textoParaColumna(data,colIndex){
   var personaCol=PERSONAS_BASE[colIndex];
   var personaDatos=personaDeColumna(colIndex);
   var texto=data[personaDatos]||"";
-  if(personaCol==="brak"||personaCol==="andriu"){
-    texto=quitarCocinaAlmuerzo(texto);
+  // Siempre quitar almuerzo del texto rotado
+  texto=quitarCocinaAlmuerzo(texto);
+  // Si la columna es Belén o Marvin y le toca almuerzo hoy, agregarlo
+  if((personaCol==="belen"||personaCol==="marvin") && getQuienHaceAlmuerzo(data.num)===personaCol){
+    texto=TEXTO_ALMUERZO+" · "+texto;
   }
   return texto;
 }
@@ -262,7 +279,7 @@ andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos
 brak:"🧹 Barrer y trapear la cocina · 🧊 Refrigerador · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪟 Ventanas sala · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🔥 Limpiar la estufa de la cocina · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🏡 Exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🐾 Patio cocina · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Tacho · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
+andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🐾 Patio cocina · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🗑️ Tacho · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"JUE",num:4,nombre:"JUEVES",
 brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🏡 Exterior · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🔥 Limpiar la estufa de la cocina · 🧊 Refrigerador · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
@@ -275,13 +292,13 @@ marvin:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y
 andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧊 Refrigerador · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"SÁB",num:6,nombre:"SÁBADO",
 brak:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-belen:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)",
+belen:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
+marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧹 Barrer y trapear la sala con clorox · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🪟 Ventana cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"DOM",num:0,nombre:"DOMINGO",
 brak:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🏡 Exterior · 🧹 Barrer y trapear la cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-marvin:"🧹 Barrer y trapear la sala con clorox · 🐾 Patio cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
+marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧹 Barrer y trapear la sala con clorox · 🐾 Patio cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 andriu:"🔥 Limpiar la estufa de la cocina · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)"}
 ];
 
