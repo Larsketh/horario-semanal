@@ -70,7 +70,16 @@ th:first-child{border-top-left-radius:16px}
 th:last-child{border-top-right-radius:16px}
 td{padding:16px 14px;vertical-align:top;border-bottom:1px solid var(--line);line-height:1.6;transition:background .3s;position:relative}
 tr:last-child td{border-bottom:none}
-td.dia{font-weight:700;text-align:center;width:70px;font-size:14px;color:var(--brand);background:var(--brand2);letter-spacing:.5px}
+
+/* ===== DÍA VERTICAL CON NOMBRE COMPLETO ===== */
+td.dia{text-align:center;width:30px;padding:10px 2px;background:var(--brand2);letter-spacing:0;font-weight:700;vertical-align:middle}
+.dia-letras{display:inline-flex;flex-direction:column;align-items:center;gap:0;line-height:1.05;font-size:12px;font-weight:700;color:inherit}
+.dia-letras span{display:block;text-align:center;width:100%}
+
+/* ===== TAREAS EN LÍNEAS SEPARADAS ===== */
+.tarea-linea{display:block;padding:2px 0;line-height:1.45}
+.tarea-linea + .tarea-linea{margin-top:1px}
+
 .brak{background:var(--brak)}
 .belen{background:var(--belen)}
 .marvin{background:var(--marvin)}
@@ -182,7 +191,6 @@ var MOMENTOS=[
 {ini:0,fin:5,emoji:"🌜",tip:"Madrugada: descanso. Mañana empieza un nuevo día de tareas."}
 ];
 
-// ===== ROTACIÓN SEMANAL =====
 function getLunesActual(){
   var h=new Date();
   var dia=h.getDay();
@@ -218,7 +226,29 @@ function textoParaColumna(data,colIndex){
   return texto;
 }
 
-// ===== DATA BASE =====
+// Convierte texto con " · " en HTML con <span class="tarea-linea">
+function formatearTareasHTML(texto){
+  if(!texto) return "";
+  var partes=texto.split(" · ");
+  var html="";
+  for(var i=0;i<partes.length;i++){
+    if(partes[i].trim()){
+      html+='<span class="tarea-linea">'+partes[i].trim()+'</span>';
+    }
+  }
+  return html;
+}
+
+// Nombre completo del día en vertical
+function diaVertical(nombre){
+  var html='<span class="dia-letras">';
+  for(var i=0;i<nombre.length;i++){
+    html+='<span>'+nombre.charAt(i)+'</span>';
+  }
+  html+='</span>';
+  return html;
+}
+
 var DATA=[
 {dia:"LUN",num:1,nombre:"LUNES",
 brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🪟 Ventanas sala · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
@@ -288,13 +318,17 @@ for(var i=0;i<DATA.length;i++){
 var d=DATA[i];
 var tr=document.createElement("tr");
 tr.dataset.dia=d.num;
-var ht='<td class="dia">'+d.dia+'</td>';
-for(var j=0;j<PERSONAS.length;j++){ht+='<td class="'+PERSONAS[j].key+'">'+textoParaColumna(d,j)+'</td>';}
+var ht='<td class="dia">'+diaVertical(d.nombre)+'</td>';
+for(var j=0;j<PERSONAS.length;j++){
+  var txt=textoParaColumna(d,j);
+  ht+='<td class="'+PERSONAS[j].key+'">'+formatearTareasHTML(txt)+'</td>';
+}
 tr.innerHTML=ht;
 for(var j=0;j<PERSONAS.length;j++){
-var td=tr.children[j+1];
-td.dataset.original=textoParaColumna(d,j);
-td.dataset.activa="0";
+  var td=tr.children[j+1];
+  td.dataset.originalHTML=td.innerHTML;
+  td.dataset.originalText=txt;
+  td.dataset.activa="0";
 }
 fragT.appendChild(tr);
 
@@ -303,8 +337,8 @@ card.className="card";
 card.dataset.dia=d.num;
 var hc='<div class="card-head"><span><span class="icon">📅</span> '+d.nombre+'</span><span class="badge-hoy" style="display:none">HOY</span></div>';
 for(var k=0;k<PERSONAS.length;k++){
-var txt=textoParaColumna(d,k);
-hc+='<div class="persona '+PERSONAS[k].bg+'" data-key="'+PERSONAS[k].key+'" data-original="'+txt.replace(/"/g,"&quot;")+'">'+txt+'</div>';
+  var txt2=textoParaColumna(d,k);
+  hc+='<div class="persona '+PERSONAS[k].bg+'" data-key="'+PERSONAS[k].key+'" data-originalHTML="'+formatearTareasHTML(txt2).replace(/"/g,"&quot;")+'">'+formatearTareasHTML(txt2)+'</div>';
 }
 card.innerHTML=hc;
 fragC.appendChild(card);
@@ -426,11 +460,11 @@ var es=esHoy && activasKeys[key];
 if(es && !era){
 td.classList.add("activa");
 td.dataset.activa="1";
-td.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+td.dataset.original;
+td.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+td.dataset.originalHTML;
 } else if(!es && era){
 td.classList.remove("activa");
 td.dataset.activa="0";
-td.innerHTML=td.dataset.original;
+td.innerHTML=td.dataset.originalHTML;
 }
 }
 }
@@ -451,11 +485,11 @@ var es=esHoy && activasKeys[key];
 if(es && !era){
 p.classList.add("activa");
 p.dataset.activa="1";
-p.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+p.dataset.original;
+p.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+p.dataset.originalHTML;
 } else if(!es && era){
 p.classList.remove("activa");
 p.dataset.activa="0";
-p.innerHTML=p.dataset.original;
+p.innerHTML=p.dataset.originalHTML;
 }
 }
 }
