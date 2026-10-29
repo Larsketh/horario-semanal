@@ -29,6 +29,7 @@ h1{font-size:26px;font-weight:700;color:var(--brand);margin-bottom:6px;letter-sp
 .pill-dia{background:var(--brand);color:#fff;animation:pop .5s ease both}
 .pill-hora{background:var(--brand2);color:var(--brand)}
 .pill-hora.tick{animation:tick .35s ease}
+.pill-semana{background:var(--brand2);color:var(--brand);font-size:11px;padding:5px 12px}
 .hoy-box{max-width:1280px;margin:0 auto 14px;padding:14px 20px;background:var(--card);border:2px solid var(--brand2);border-radius:14px;box-shadow:var(--sh);animation:fadeUp .5s ease both}
 .hoy-head{font-weight:700;color:var(--brand);margin-bottom:10px;font-size:15px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .hoy-head .hoy-dia-tag{background:var(--brand);color:#fff;font-size:11.5px;padding:2px 10px;border-radius:12px;font-weight:700;letter-spacing:.4px}
@@ -119,6 +120,7 @@ body{padding:22px 14px 32px;font-size:14.5px}h1{font-size:21px}.subtitle{font-si
 <div class="info-bar">
 <span class="pill pill-dia" id="pillDia">📅 Cargando día...</span>
 <span class="pill pill-hora" id="pillHora">⏰ --:-- --</span>
+<span class="pill pill-semana" id="pillSemana">📆 Semana —</span>
 </div>
 </header>
 
@@ -150,6 +152,7 @@ var tbody=document.getElementById("tbody");
 var cards=document.getElementById("cards");
 var pillDia=document.getElementById("pillDia");
 var pillHora=document.getElementById("pillHora");
+var pillSemana=document.getElementById("pillSemana");
 var tipBox=document.getElementById("tipBox");
 var tipText=document.getElementById("tipText");
 var tipIcon=document.getElementById("tipIcon");
@@ -169,6 +172,8 @@ var PERSONAS=[
 {key:"marvin",bg:"marvin-bg",hoyBg:"hoy-marvin",nombre:"👦 Marvin"},
 {key:"andriu",bg:"andriu-bg",hoyBg:"hoy-andriu",nombre:"👨‍🦱 Andriu"}
 ];
+var PERSONAS_BASE=["brak","belen","marvin","andriu"];
+
 var MOMENTOS=[
 {ini:5,fin:12,emoji:"🌅",tip:"Por la mañana: cada quien lava su plato, vaso y cubiertos del desayuno antes de salir."},
 {ini:12,fin:18,emoji:"☀️",tip:"Por la tarde: empiezan a llegar y toca cocina, baños y suelos. La persona de cocina lava lo que quede olvidado."},
@@ -177,49 +182,79 @@ var MOMENTOS=[
 {ini:0,fin:5,emoji:"🌜",tip:"Madrugada: descanso. Mañana empieza un nuevo día de tareas."}
 ];
 
+// ===== ROTACIÓN SEMANAL =====
+function getLunesActual(){
+  var h=new Date();
+  var dia=h.getDay();
+  var diff=(dia===0)?-6:(1-dia);
+  var l=new Date(h);
+  l.setDate(h.getDate()+diff);
+  l.setHours(0,0,0,0);
+  return l;
+}
+function getSemanaAnio(){
+  var lunes=getLunesActual();
+  var inicio=new Date(lunes.getFullYear(),0,1);
+  var dias=Math.floor((lunes-inicio)/(24*60*60*1000));
+  return Math.floor(dias/7);
+}
+var SEMANA_ROT=getSemanaAnio()%4;
+
+function personaDeColumna(colIndex){
+  return PERSONAS_BASE[(colIndex-SEMANA_ROT+4)%4];
+}
+function quitarCocinaAlmuerzo(texto){
+  if(!texto) return texto;
+  var regex=/🍳 Lavar ollas y utensilios del almuerzo.*?con limpiar las puertas de los gabinetes y lados\s*(·\s*)?/g;
+  return texto.replace(regex,"").replace(/^·\s*/,"").replace(/·\s*$/,"").trim();
+}
+function textoParaColumna(data,colIndex){
+  var personaCol=PERSONAS_BASE[colIndex];
+  var personaDatos=personaDeColumna(colIndex);
+  var texto=data[personaDatos]||"";
+  if(personaCol==="brak"||personaCol==="andriu"){
+    texto=quitarCocinaAlmuerzo(texto);
+  }
+  return texto;
+}
+
+// ===== DATA BASE =====
 var DATA=[
 {dia:"LUN",num:1,nombre:"LUNES",
 brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🪟 Ventanas sala · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🔥 Limpiar la estufa de la cocina · 🏡 Exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🧹 Barrer y trapear la cocina · 🧊 Refrigerador · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-resumen:{brak:"🍳 Cena · 🪟 Ventanas · 🧹 Sala · 🚮 Basura",belen:"🍳 Almuerzo · 🔥 Estufa · 🏡 Exterior · 🚮 Basura",marvin:"🚿 Baño 2do · 🐾 Patio · 🛋️ Sofá · 🚮 Basura",andriu:"🧹 Suelo cocina · 🧊 Refri · 🧼 Mesa alm+cena · 🧽 3er piso · 🚮 Basura"}},
+andriu:"🧹 Barrer y trapear la cocina · 🧊 Refrigerador · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"MAR",num:2,nombre:"MARTES",
 brak:"🔥 Limpiar la estufa de la cocina · 🧊 Refrigerador · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🧹 Barrer y trapear la cocina · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-resumen:{brak:"🔥 Estufa · 🧊 Refri · 🗄️ Objetos · 🛋️ Sofá · 🚮 Basura",belen:"🧹 Suelo cocina · 🐾 Patio · 🧹 Sala · 🚮 Basura",marvin:"🍳 Almuerzo · 🧼 Mesa alm+cena · 🚮 Basura",andriu:"🍳 Cena · 🚿 Baño 1er · 🪜 Escaleras · 🚮 Basura"}},
+andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"MIÉ",num:3,nombre:"MIÉRCOLES",
 brak:"🧹 Barrer y trapear la cocina · 🧊 Refrigerador · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪟 Ventanas sala · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🔥 Limpiar la estufa de la cocina · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🏡 Exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🐾 Patio cocina · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Tacho · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-resumen:{brak:"🧹 Suelo cocina · 🧊 Refri · 🚮 Basura",belen:"🍳 Almuerzo · 🧼 Mesa alm+cena · 🪟 Ventanas · 🛋️ Sofá · 🚮 Basura",marvin:"🔥 Estufa · 🚿 Baño 2do · 🏡 Exterior · 🚮 Basura",andriu:"🍳 Cena · 🐾 Patio · 🚿 Baño 1er · 🗑️ Tacho · 🚮 Basura"}},
+andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🐾 Patio cocina · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Tacho · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"JUE",num:4,nombre:"JUEVES",
 brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🏡 Exterior · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🔥 Limpiar la estufa de la cocina · 🧊 Refrigerador · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🐾 Patio cocina · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-resumen:{brak:"🍳 Cena · 🏡 Exterior · 🧼 Mesa alm+cena · 🪜 Escaleras · 🚮 Basura",belen:"🔥 Estufa · 🧊 Refri · 🧹 Sala · 🚮 Basura",marvin:"🍳 Almuerzo · 🧹 Suelo cocina · 🗄️ Objetos · 🧽 3er piso · 🚮 Basura",andriu:"🐾 Patio · 🛋️ Sofá · 🚮 Basura"}},
+andriu:"🐾 Patio cocina · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"VIE",num:5,nombre:"VIERNES",
 brak:"🔥 Limpiar la estufa de la cocina · 🧹 Barrer y trapear la sala con clorox · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🐾 Patio cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🪟 Ventana cocina · 🚪 Reja exterior · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧊 Refrigerador · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-resumen:{brak:"🔥 Estufa · 🧹 Sala · 🧼 Mesa alm+cena · 🧹 Suelo cocina · 🚮 Basura",belen:"🍳 Almuerzo · 🐾 Patio · 🗄️ Objetos · 🚮 Basura",marvin:"🚿 Baño 1er · 🪟 Ventana · 🚪 Reja · 🚮 Basura",andriu:"🍳 Cena · 🧊 Refri · 🧽 3er piso · 🚮 Basura"}},
+andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧊 Refrigerador · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"SÁB",num:6,nombre:"SÁBADO",
 brak:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🗑️ Lavar tacho · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🐾 Patio cocina · 🧹 Barrer y trapear la sala con clorox · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪜 Barrer y trapear escaleras con el pasadizo · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🪟 Ventana cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-resumen:{brak:"🚿 Baño 1er · 🗑️ Tacho · 🧊 Refri · 🧹 Suelo cocina · 🚮 Basura",belen:"🚿 Baño 2do · 🐾 Patio · 🧹 Sala · 🚮 Basura",marvin:"🍳 Almuerzo · 🧼 Mesa alm+cena · 🪜 Escaleras · 🚮 Basura",andriu:"🍳 Cena · 🗄️ Objetos · 🪟 Ventana · 🚮 Basura"}},
+andriu:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🪟 Ventana cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)"},
 {dia:"DOM",num:0,nombre:"DOMINGO",
 brak:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🛋️ Acomodar sofá · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 belen:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🏡 Exterior · 🧹 Barrer y trapear la cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🚮 Botar la basura de hoy en la noche (todos juntos)",
 marvin:"🧹 Barrer y trapear la sala con clorox · 🐾 Patio cocina · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-andriu:"🔥 Limpiar la estufa de la cocina · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)",
-resumen:{brak:"🚿 Baño 2do · 🧊 Refri · 🛋️ Sofá · 🚮 Basura",belen:"🍳 Cena · 🏡 Exterior · 🧹 Suelo cocina · 🧼 Mesa alm+cena · 🚮 Basura",marvin:"🧹 Sala · 🐾 Patio · 🚮 Basura",andriu:"🔥 Estufa · 🧽 3er piso · 🚮 Basura"}}
+andriu:"🔥 Limpiar la estufa de la cocina · 🧽 Tercer piso · 🚮 Botar la basura de hoy en la noche (todos juntos)"}
 ];
 
 var TAREAS_HOR=[];
@@ -254,11 +289,11 @@ var d=DATA[i];
 var tr=document.createElement("tr");
 tr.dataset.dia=d.num;
 var ht='<td class="dia">'+d.dia+'</td>';
-for(var j=0;j<PERSONAS.length;j++){ht+='<td class="'+PERSONAS[j].key+'">'+d[PERSONAS[j].key]+'</td>';}
+for(var j=0;j<PERSONAS.length;j++){ht+='<td class="'+PERSONAS[j].key+'">'+textoParaColumna(d,j)+'</td>';}
 tr.innerHTML=ht;
 for(var j=0;j<PERSONAS.length;j++){
 var td=tr.children[j+1];
-td.dataset.original=d[PERSONAS[j].key];
+td.dataset.original=textoParaColumna(d,j);
 td.dataset.activa="0";
 }
 fragT.appendChild(tr);
@@ -268,7 +303,8 @@ card.className="card";
 card.dataset.dia=d.num;
 var hc='<div class="card-head"><span><span class="icon">📅</span> '+d.nombre+'</span><span class="badge-hoy" style="display:none">HOY</span></div>';
 for(var k=0;k<PERSONAS.length;k++){
-hc+='<div class="persona '+PERSONAS[k].bg+'" data-key="'+PERSONAS[k].key+'" data-original="'+d[PERSONAS[k].key].replace(/"/g,"&quot;")+'">'+d[PERSONAS[k].key]+'</div>';
+var txt=textoParaColumna(d,k);
+hc+='<div class="persona '+PERSONAS[k].bg+'" data-key="'+PERSONAS[k].key+'" data-original="'+txt.replace(/"/g,"&quot;")+'">'+txt+'</div>';
 }
 card.innerHTML=hc;
 fragC.appendChild(card);
@@ -304,7 +340,7 @@ var dd=null;
 for(var i=0;i<DATA.length;i++){if(DATA[i].num===hoy){dd=DATA[i];break;}}
 if(!dd) return res;
 for(var j=0;j<PERSONAS.length;j++){
-var p=PERSONAS[j], texto=dd[p.key];
+var p=PERSONAS[j], texto=textoParaColumna(dd,j);
 for(var k=0;k<TAREAS_HOR.length;k++){
 var t=TAREAS_HOR[k];
 if(texto.indexOf(t.match)!==-1){
@@ -325,7 +361,7 @@ for(var i=0;i<DATA.length;i++){if(DATA[i].num===hoy){dd=DATA[i];break;}}
 if(!dd) return null;
 var prox=null;
 for(var j=0;j<PERSONAS.length;j++){
-var p=PERSONAS[j], texto=dd[p.key];
+var p=PERSONAS[j], texto=textoParaColumna(dd,j);
 for(var k=0;k<TAREAS_HOR.length;k++){
 var t=TAREAS_HOR[k];
 if(texto.indexOf(t.match)!==-1 && t.ini>minA){
@@ -433,8 +469,10 @@ if(!dd){hoyList.innerHTML="";return;}
 var html="";
 for(var j=0;j<PERSONAS.length;j++){
 var p=PERSONAS[j];
+var texto=textoParaColumna(dd,j);
+var resumen=texto.split(" · ").map(function(t){return t.split(" ").slice(0,3).join(" ");}).join(" · ");
 html+='<div class="hoy-item '+p.hoyBg+'">';
-html+='<div style="flex:1"><span class="hoy-name">'+p.nombre+'</span><span class="hoy-tasks">'+(dd.resumen?dd.resumen[p.key]:dd[p.key])+'</span></div>';
+html+='<div style="flex:1"><span class="hoy-name">'+p.nombre+'</span><span class="hoy-tasks">'+resumen+'</span></div>';
 html+='</div>';
 }
 hoyList.innerHTML=html;
@@ -506,6 +544,8 @@ if(document.hidden){detener();}
 else{actualizar();iniciar();}
 });
 }
+
+pillSemana.textContent="📆 Rotación "+(SEMANA_ROT+1)+"/4";
 
 actualizar();
 iniciar();
