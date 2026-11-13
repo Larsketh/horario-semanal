@@ -161,7 +161,7 @@ body{padding:22px 14px 32px;font-size:14.5px}h1{font-size:21px}.subtitle{font-si
 <div class="info-bar">
 <span class="pill pill-dia" id="pillDia">📅 Cargando día...</span>
 <span class="pill pill-hora" id="pillHora">⏰ --:-- --</span>
-<span class="pill pill-semana" id="pillSemana">📆 Semana —</span>
+<span class="pill pill-semana" id="pillSemana">📆 Horario fijo</span>
 </div>
 </header>
 
@@ -180,464 +180,246 @@ body{padding:22px 14px 32px;font-size:14.5px}h1{font-size:21px}.subtitle{font-si
 
 <noscript><div class="noscript">⚠️ Activa JavaScript para ver el horario completo.</div></noscript>
 
-<div class="tabla-wrap"><table id="tabla"><thead><tr><th>Día</th><th>🧑‍🔧 Brak</th><th>👩 Belén</th><th>👦 Marvin</th><th>👨‍🦱 Andriu</th></tr></thead><tbody id="tbody"></tbody></table></div>
+<div class="tabla-wrap"><table id="tabla"><thead><tr><th>Día</th><th>🧑‍🔧 Brak</th><th>👦 Marvin</th><th>👨‍🦱 Andriu</th></tr></thead><tbody id="tbody"></tbody></table></div>
 <div class="cards" id="cards"></div>
 
 <footer class="footer">Casa Familiar · Horario oficial 🔒<span class="nota">🍽️ Cada quien lava su plato, vaso y cubiertos INMEDIATAMENTE. La persona de cocina solo lava lo que quede olvidado, no es para abusar.</span></footer>
 
 <script>
-(function(){
-"use strict";
-var tbody=document.getElementById("tbody");
-var cards=document.getElementById("cards");
-var pillDia=document.getElementById("pillDia");
-var pillHora=document.getElementById("pillHora");
-var pillSemana=document.getElementById("pillSemana");
-var tipBox=document.getElementById("tipBox");
-var tipText=document.getElementById("tipText");
-var tipIcon=document.getElementById("tipIcon");
-var alertBox=document.getElementById("alertBox");
-var alertList=document.getElementById("alertList");
-var alertTitle=document.getElementById("alertTitle");
-var alertTip=document.getElementById("alertTip");
-var hoyBox=document.getElementById("hoyBox");
-var hoyList=document.getElementById("hoyList");
-var hoyTag=document.getElementById("hoyTag");
-if(!tbody||!cards||!pillDia||!pillHora||!tipBox||!tipText||!tipIcon||!alertBox||!alertList||!hoyList){console.error("Faltan elementos");return;}
+const $ = id => document.getElementById(id);
+const tbody=$("tbody"), cards=$("cards"), pillDia=$("pillDia"), pillHora=$("pillHora"), pillSemana=$("pillSemana"), tipBox=$("tipBox"), tipText=$("tipText"), tipIcon=$("tipIcon"), alertBox=$("alertBox"), alertList=$("alertList"), alertTitle=$("alertTitle"), alertTip=$("alertTip"), hoyList=$("hoyList"), hoyTag=$("hoyTag");
 
-var DIAS=["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
-var PERSONAS=[
-{key:"brak",bg:"brak-bg",hoyBg:"hoy-brak",nombre:"🧑‍🔧 Brak"},
-{key:"belen",bg:"belen-bg",hoyBg:"hoy-belen",nombre:"👩 Belén"},
-{key:"marvin",bg:"marvin-bg",hoyBg:"hoy-marvin",nombre:"👦 Marvin"},
-{key:"andriu",bg:"andriu-bg",hoyBg:"hoy-andriu",nombre:"👨‍🦱 Andriu"}
+const DIAS=["Domingo","Lunes","Martes","Miércoles","Jueves","Viernes","Sábado"];
+const PERSONAS=[{k:"b",bg:"brak-bg",hoyBg:"hoy-brak",n:"🧑‍🔧 Brak"},{k:"m",bg:"marvin-bg",hoyBg:"hoy-marvin",n:"👦 Marvin"},{k:"a",bg:"andriu-bg",hoyBg:"hoy-andriu",n:"👨‍🦱 Andriu"}];
+const MOMENTOS=[{ini:5,fin:12,e:"🌅",t:"Por la mañana: cada quien lava su plato, vaso y cubiertos del desayuno antes de salir."},{ini:12,fin:18,e:"☀️",t:"Por la tarde: empiezan a llegar y toca cocina, baños y suelos. La persona de cocina lava lo que quede olvidado."},{ini:18,fin:22,e:"🌙",t:"Por la noche: cena, suelo de sala y todos botan la basura juntos antes de dormir."},{ini:22,fin:24,e:"🌜",t:"Última hora: revisar que la cocina esté limpia y no queden platos tirados. Todo listo para mañana."},{ini:0,fin:5,e:"🌜",t:"Madrugada: descanso. Mañana empieza un nuevo día de tareas."}];
+
+const BASURA="🚮 Botar la basura de hoy en la noche (todos juntos)";
+
+// ===== HORARIO FIJO: SIN REPETICIÓN CONSECUTIVA Y ESFUERZO IDÉNTICO TODOS LOS DÍAS =====
+// Cada persona: 2 Alto + 1 Medio + 1 Alto periódico + Basura = 12 puntos diarios exactos
+// Semanal: 12 × 7 = 84 puntos por persona (idéntico)
+const DATA=[
+{n:1,nm:"LUNES",
+b:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🧊 Refrigerador",
+m:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventanas sala",
+a:"🔥 Limpiar la estufa de la cocina · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪜 Barrer y trapear escaleras con el pasadizo"},
+
+{n:2,nm:"MARTES",
+b:"🔥 Limpiar la estufa de la cocina · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado",
+m:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🏡 Exterior",
+a:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🧽 Tercer piso"},
+
+{n:3,nm:"MIÉRCOLES",
+b:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventanas sala",
+m:"🔥 Limpiar la estufa de la cocina · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧊 Refrigerador",
+a:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado"},
+
+{n:4,nm:"JUEVES",
+b:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🪜 Barrer y trapear escaleras con el pasadizo",
+m:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🧽 Tercer piso",
+a:"🔥 Limpiar la estufa de la cocina · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧊 Refrigerador"},
+
+{n:5,nm:"VIERNES",
+b:"🔥 Limpiar la estufa de la cocina · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🏡 Exterior",
+m:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado",
+a:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventanas sala"},
+
+{n:6,nm:"SÁBADO",
+b:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🧽 Tercer piso",
+m:"🔥 Limpiar la estufa de la cocina · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🪜 Barrer y trapear escaleras con el pasadizo",
+a:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🏡 Exterior"},
+
+{n:0,nm:"DOMINGO",
+b:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧹 Barrer y trapear la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado",
+m:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧹 Barrer y trapear la sala con clorox · 🪟 Ventanas sala",
+a:"🔥 Limpiar la estufa de la cocina · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena · 🧊 Refrigerador"}
 ];
-var PERSONAS_BASE=["brak","belen","marvin","andriu"];
 
-var MOMENTOS=[
-{ini:5,fin:12,emoji:"🌅",tip:"Por la mañana: cada quien lava su plato, vaso y cubiertos del desayuno antes de salir."},
-{ini:12,fin:18,emoji:"☀️",tip:"Por la tarde: empiezan a llegar y toca cocina, baños y suelos. La persona de cocina lava lo que quede olvidado."},
-{ini:18,fin:22,emoji:"🌙",tip:"Por la noche: cena, suelo de sala y todos botan la basura juntos antes de dormir."},
-{ini:22,fin:24,emoji:"🌜",tip:"Última hora: revisar que la cocina esté limpia y no queden platos tirados. Todo listo para mañana."},
-{ini:0,fin:5,emoji:"🌜",tip:"Madrugada: descanso. Mañana empieza un nuevo día de tareas."}
-];
+const T_HOR=[["Lavar ollas y utensilios del almuerzo","Cocina almuerzo","🍳",840,90],["Lavar ollas y utensilios de la cena","Cocina cena","🍳",1140,60],["Limpiar la estufa","Estufa","🔥",990,30],["baño 2do piso","Baño 2do piso","🚿",990,30],["baño 1er piso","Baño 1er piso","🚿",990,30],["🧊 Refrigerador","Refrigerador","🧊",1020,30],["🐾 Patio cocina","Patio cocina","🐾",990,30],["Barrer y trapear escaleras","Escaleras","🪜",1050,30],["🧽 Tercer piso","Tercer piso","🧽",1020,30],["Barrer y trapear la cocina","Suelo cocina","🧹",1080,30],["Ventanas sala","Ventanas sala","🪟",960,30],["Ventana cocina","Ventana cocina","🪟",960,30],["Barrer y trapear la sala","Suelo sala","🧹",1230,30],["Limpiar mesa del comedor","Mesa comedor (almuerzo)","🧼",990,20],["Limpiar mesa del comedor","Mesa comedor (cena)","🧼",1230,20],["Botar la basura","Botar basura (todos)","🚮",1260,15],["🏡 Exterior","Exterior","🏡",990,45],["Organizar objetos","Organizar objetos cocina","🗄️",1020,30]];
 
-function clasePorTarea(texto){
-  var t=texto.trim();
-  if(t.indexOf("🍳 Lavar ollas y utensilios de la cena")===0) return "t-cena";
-  if(t.indexOf("🍳")===0) return "t-cocina";
-  if(t.indexOf("🔥")===0) return "t-estufa";
-  if(t.indexOf("🚿")===0||t.indexOf("🛁")===0) return "t-bano";
-  if(t.indexOf("🧊")===0) return "t-refri";
-  if(t.indexOf("🐾")===0) return "t-patio";
-  if(t.indexOf("🪜")===0) return "t-escaleras";
-  if(t.indexOf("🧽")===0) return "t-tercer";
-  if(t.indexOf("🧹")===0) return "t-suelo";
-  if(t.indexOf("🪟")===0) return "t-ventanas";
-  if(t.indexOf("🚪")===0) return "t-reja";
-  if(t.indexOf("🧼")===0) return "t-mesa";
-  if(t.indexOf("🚮")===0) return "t-basura";
-  if(t.indexOf("🏡")===0) return "t-exterior";
-  if(t.indexOf("🛋️")===0||t.indexOf("🛋")===0) return "t-sofa";
-  if(t.indexOf("🗄️")===0||t.indexOf("🗄")===0) return "t-objetos";
-  if(t.indexOf("🗑️")===0||t.indexOf("🗑")===0) return "t-tacho";
-  return "t-sala";
-}
+const clasePorTarea = t => {
+    t = t.trim();
+    if (t.startsWith("🍳 Lavar ollas y utensilios de la cena")) return "t-cena";
+    if (t.startsWith("🍳")) return "t-cocina";
+    if (t.startsWith("🔥")) return "t-estufa";
+    if (t.startsWith("🚿")||t.startsWith("🛁")) return "t-bano";
+    if (t.startsWith("🧊")) return "t-refri";
+    if (t.startsWith("🐾")) return "t-patio";
+    if (t.startsWith("🪜")) return "t-escaleras";
+    if (t.startsWith("🧽")) return "t-tercer";
+    if (t.startsWith("🧹")) return "t-suelo";
+    if (t.startsWith("🪟")) return "t-ventanas";
+    if (t.startsWith("🧼")) return "t-mesa";
+    if (t.startsWith("🚮")) return "t-basura";
+    if (t.startsWith("🏡")) return "t-exterior";
+    if (t.startsWith("🗄️")||t.startsWith("🗄")) return "t-objetos";
+    return "t-sala";
+};
 
-function formatearTareasHTML(texto){
-  if(!texto) return "";
-  var partes=texto.split(" · ");
-  var html="";
-  for(var i=0;i<partes.length;i++){
-    var t=partes[i].trim();
-    if(t){
-      var cls=clasePorTarea(t);
-      html+='<span class="tarea-linea '+cls+'">'+t+'</span>';
+const formatTareas = txt => !txt ? "" : txt.split(" · ").map(t => t.trim() ? `<span class="tarea-linea ${clasePorTarea(t)}">${t}</span>` : "").join("");
+
+const resumirTarea = t => {
+    if (t.startsWith("🍳 Lavar ollas y utensilios del almuerzo")) return "🍳 Almuerzo";
+    if (t.startsWith("🍳 Lavar ollas y utensilios de la cena")) return "🍳 Cena";
+    if (t.startsWith("🍳")) return "🍳 Cocina";
+    if (t.startsWith("🔥")) return "🔥 Estufa";
+    if (t.startsWith("🚿")||t.startsWith("🛁")) return t.includes("2do piso") ? "🚿 Baño 2" : t.includes("1er piso") ? "🚿 Baño 1" : "🚿 Baño";
+    if (t.startsWith("🧊")) return "🧊 Refri";
+    if (t.startsWith("🐾")) return "🐾 Patio";
+    if (t.startsWith("🪜")) return "🪜 Escaleras";
+    if (t.startsWith("🧽")) return t.includes("Tercer piso") ? "🧽 3er piso" : "🧽 Sala/Com";
+    if (t.startsWith("🧹")) return t.includes("cocina") ? "🧹 Suelo cocina" : "🧹 Suelo sala";
+    if (t.startsWith("🪟")) return "🪟 Ventanas";
+    if (t.startsWith("🧼")) return "🧼 Mesa";
+    if (t.startsWith("🚮")) return "🚮 Basura";
+    if (t.startsWith("🏡")) return "🏡 Exterior";
+    if (t.startsWith("🗄️")||t.startsWith("🗄")) return "🗄️ Objetos";
+    return t.split(" ").slice(0,2).join(" ");
+};
+
+const resumenTexto = txt => !txt ? "" : txt.split(" · ").map(t => resumirTarea(t.trim())).join(" · ");
+
+const diaVert = n => `<span class="dia-letras">${n.split("").map(c=>`<span>${c}</span>`).join("")}</span>`;
+
+const getTxtCol = (d, idx) => {
+    const pDat = ["b","m","a"][idx];
+    let t = d[pDat].replace(/🚮 Botar la basura de hoy en la noche \(todos juntos\)\s*(·\s*)?/g,"").replace(/^·\s*/,"").replace(/·\s*$/,"").trim();
+    return t + " · " + BASURA;
+};
+
+const build = () => {
+    let tHtml = "", cHtml = "";
+    DATA.forEach(d => {
+        tHtml += `<tr data-dia="${d.n}"><td class="dia">${diaVert(d.nm)}</td>`;
+        cHtml += `<div class="card" data-dia="${d.n}"><div class="card-head"><span><span class="icon">📅</span> ${d.nm}</span><span class="badge-hoy" style="display:none">HOY</span></div>`;
+        
+        for (let j = 0; j < 3; j++) {
+            const txt = getTxtCol(d, j);
+            const h = formatTareas(txt);
+            tHtml += `<td class="${PERSONAS[j].k}">${h}</td>`;
+            cHtml += `<div class="persona ${PERSONAS[j].bg}" data-key="${PERSONAS[j].k}" data-original="${h.replace(/"/g,"&quot;")}">${h}</div>`;
+        }
+        tHtml += `</tr>`;
+        cHtml += `</div>`;
+    });
+    tbody.innerHTML = tHtml;
+    cards.innerHTML = cHtml;
+};
+build();
+
+const formatearHora = (h, m) => `${h%12||12}:${String(m).padStart(2,"0")} ${h<12?"AM":"PM"}`;
+const animar = (el,c) => { el.classList.remove(c); void el.offsetWidth; el.classList.add(c); };
+const reordenar = hoy => { Array.from(cards.children).sort((a,b) => ((+a.dataset.dia - hoy + 7) % 7) - ((+b.dataset.dia - hoy + 7) % 7)).forEach(c => cards.appendChild(c)); };
+
+const calcActivas = minA => {
+    const hoy = new Date().getDay(), dd = DATA.find(d => d.n === hoy);
+    if (!dd) return [];
+    const res = [];
+    for (let j = 0; j < 3; j++) {
+        const p = PERSONAS[j], txt = getTxtCol(dd, j);
+        T_HOR.forEach(t => {
+            if (txt.includes(t[0])) {
+                const fin = t[3] + t[4];
+                if (minA >= t[3] && minA < fin) {
+                    res.push({ label: t[1], emoji: t[2], persona: p.n, key: p.k, fin: fin, rest: fin - minA });
+                }
+            }
+        });
     }
-  }
-  return html;
-}
+    return res;
+};
 
-function resumirTarea(t){
-  if(t.indexOf("🍳 Lavar ollas y utensilios del almuerzo")===0) return "🍳 Almuerzo";
-  if(t.indexOf("🍳 Lavar ollas y utensilios de la cena")===0) return "🍳 Cena";
-  if(t.indexOf("🍳")===0) return "🍳 Cocina";
-  if(t.indexOf("🔥")===0) return "🔥 Estufa";
-  if(t.indexOf("🚿")===0||t.indexOf("🛁")===0){
-    if(t.indexOf("2do piso")!==-1) return "🚿 Baño 2";
-    if(t.indexOf("1er piso")!==-1) return "🚿 Baño 1";
-    return "🚿 Baño";
-  }
-  if(t.indexOf("🧊")===0) return "🧊 Refri";
-  if(t.indexOf("🐾")===0) return "🐾 Patio";
-  if(t.indexOf("🪜")===0) return "🪜 Escaleras";
-  if(t.indexOf("🧽")===0){
-    if(t.indexOf("Tercer piso")!==-1) return "🧽 3er piso";
-    return "🧽 Sala/Com";
-  }
-  if(t.indexOf("🧹")===0){
-    if(t.indexOf("cocina")!==-1) return "🧹 Suelo cocina";
-    return "🧹 Suelo sala";
-  }
-  if(t.indexOf("🪟")===0) return "🪟 Ventanas";
-  if(t.indexOf("🚪")===0) return "🚪 Reja";
-  if(t.indexOf("🧼")===0) return "🧼 Mesa";
-  if(t.indexOf("🚮")===0) return "🚮 Basura";
-  if(t.indexOf("🏡")===0) return "🏡 Exterior";
-  if(t.indexOf("🛋️")===0||t.indexOf("🛋")===0) return "🛋️ Sofá";
-  if(t.indexOf("🗄️")===0||t.indexOf("🗄")===0) return "🗄️ Objetos";
-  if(t.indexOf("🗑️")===0||t.indexOf("🗑")===0) return "🗑️ Tacho";
-  return t.split(" ").slice(0,2).join(" ");
-}
+const calcProx = minA => {
+    const hoy = new Date().getDay(), dd = DATA.find(d => d.n === hoy);
+    if (!dd) return null;
+    let prox = null;
+    for (let j = 0; j < 3; j++) {
+        const p = PERSONAS[j], txt = getTxtCol(dd, j);
+        T_HOR.forEach(t => {
+            if (txt.includes(t[0]) && t[3] > minA) {
+                if (!prox || t[3] < prox.ini) prox = { label: t[1], emoji: t[2], persona: p.n, ini: t[3] };
+            }
+        });
+    }
+    return prox;
+};
 
-function resumenTexto(texto) {
-  if(!texto) return "";
-  return texto.split(" · ").map(function(t){
-    return resumirTarea(t.trim());
-  }).join(" · ");
-}
+let uTip = "", uHora = "", uDia = -1;
 
-function diaVertical(nombre){
-  var html='<span class="dia-letras">';
-  for(var i=0;i<nombre.length;i++){
-    html+='<span>'+nombre.charAt(i)+'</span>';
-  }
-  html+='</span>';
-  return html;
-}
+const actualizar = () => {
+    try {
+        const ahora = new Date(), h = ahora.getHours(), min = ahora.getMinutes(), minA = h*60+min, hStr = formatearHora(h, min);
+        if (hStr !== uHora) { uHora = hStr; pillHora.textContent = "⏰ " + hStr; animar(pillHora, "tick"); }
 
-function getLunesActual(){
-  var h=new Date();
-  var dia=h.getDay();
-  var diff=(dia===0)?-6:(1-dia);
-  var l=new Date(h);
-  l.setDate(h.getDate()+diff);
-  l.setHours(0,0,0,0);
-  return l;
-}
-function getSemanaAnio(){
-  var lunes=getLunesActual();
-  var inicio=new Date(lunes.getFullYear(),0,1);
-  var dias=Math.floor((lunes-inicio)/(24*60*60*1000));
-  return Math.floor(dias/7);
-}
-var SEMANA_ROT=getSemanaAnio()%4;
-var ES_PAR = SEMANA_ROT % 2 === 0;
+        const m = MOMENTOS.find(m => h >= m.ini && h < m.fin) || MOMENTOS[0];
+        if (m.t !== uTip) {
+            uTip = m.t; tipBox.classList.remove("cambia"); void tipBox.offsetWidth;
+            tipIcon.textContent = m.e; tipText.textContent = m.t; tipBox.classList.add("cambia");
+        }
 
-function personaDeColumna(colIndex){
-  return PERSONAS_BASE[(colIndex-SEMANA_ROT+4)%4];
-}
+        const hoy = ahora.getDay();
+        if (hoy !== uDia) {
+            uDia = hoy; pillDia.textContent = "📅 Hoy es " + DIAS[hoy];
+            document.querySelectorAll("tbody tr").forEach(tr => tr.classList.toggle("hoy", +tr.dataset.dia === hoy));
+            
+            const dd = DATA.find(d => d.n === hoy);
+            hoyTag.textContent = dd.nm;
+            let hHtml = "";
+            for (let j = 0; j < 3; j++) {
+                hHtml += `<div class="hoy-item ${PERSONAS[j].hoyBg}"><div style="flex:1;min-width:0;"><span class="hoy-name">${PERSONAS[j].n}</span><span class="hoy-tasks">${resumenTexto(getTxtCol(dd, j))}</span></div></div>`;
+            }
+            hoyList.innerHTML = hHtml;
+            
+            Array.from(cards.children).forEach(c => {
+                const esHoy = +c.dataset.dia === hoy;
+                c.classList.toggle("hoy", esHoy);
+                c.querySelector(".badge-hoy").style.display = esHoy ? "inline-block" : "none";
+            });
+            reordenar(hoy);
+        }
 
-var TEXTO_ALMUERZO="🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados";
-var TEXTO_BASURA="🚮 Botar la basura de hoy en la noche (todos juntos)";
+        const act = calcActivas(minA), keys = new Set(act.map(a => a.key));
+        
+        if (!act.length) {
+            alertBox.classList.add("vacio"); alertTitle.textContent = "Sin zonas en uso ahora";
+            const prox = calcProx(minA);
+            alertList.innerHTML = `<div class="alert-vacio-msg">✅ Ninguna zona en uso en este momento</div>${prox ? `<div class="alert-vacio-prox">⏳ Próxima tarea: ${prox.emoji} ${prox.label} → ${prox.persona} a las ${formatearHora(Math.floor(prox.ini/60), prox.ini%60)}</div>` : ""}`;
+            alertTip.style.display = "none";
+        } else {
+            alertBox.classList.remove("vacio"); alertTitle.textContent = "Zonas en uso ahora";
+            alertList.innerHTML = act.map(a => `<div class="alert-item"><span class="alert-emoji">${a.emoji}</span><span class="alert-zona">${a.label}</span><span class="alert-quien">→ ${a.persona}</span><span class="alert-time">⏳ ${a.rest} min · hasta ${formatearHora(Math.floor(a.fin/60), a.fin%60)}</span></div>`).join("");
+            alertTip.style.display = "block";
+        }
 
-function getQuienHaceAlmuerzo(diaNum){
-  var asignacion={
-    1:["belen","marvin"],2:["marvin","belen"],3:["belen","marvin"],
-    4:["marvin","belen"],5:["belen","marvin"],6:["marvin","belen"],0:["belen","marvin"]
-  };
-  return asignacion[diaNum][ES_PAR?0:1];
-}
+        document.querySelectorAll("tbody tr").forEach(tr => {
+            const esHoy = +tr.dataset.dia === hoy;
+            for (let j = 1; j <= 3; j++) {
+                const td = tr.children[j], key = PERSONAS[j-1].k, era = td.dataset.activa === "1", es = esHoy && keys.has(key);
+                if (es && !era) { td.classList.add("activa"); td.dataset.activa = "1"; td.innerHTML = `<span class="badge-uso">🟢 EN USO</span>` + td.dataset.original; }
+                else if (!es && era) { td.classList.remove("activa"); td.dataset.activa = "0"; td.innerHTML = td.dataset.original; }
+            }
+        });
 
-function quitarCocinaAlmuerzo(texto){
-  if(!texto) return texto;
-  var regex=/🍳 Lavar ollas y utensilios del almuerzo.*?con limpiar las puertas de los gabinetes y lados\s*(·\s*)?/g;
-  return texto.replace(regex,"").replace(/^·\s*/,"").replace(/·\s*$/,"").trim();
-}
-function quitarBasura(texto){
-  if(!texto) return texto;
-  var regex=/🚮 Botar la basura de hoy en la noche \(todos juntos\)\s*(·\s*)?/g;
-  return texto.replace(regex,"").replace(/^·\s*/,"").replace(/·\s*$/,"").trim();
-}
+        Array.from(cards.children).forEach(c => {
+            const esHoy = +c.dataset.dia === hoy;
+            c.querySelectorAll(".persona").forEach(p => {
+                const key = p.dataset.key, era = p.dataset.activa === "1", es = esHoy && keys.has(key);
+                if (es && !era) { p.classList.add("activa"); p.dataset.activa = "1"; p.innerHTML = `<span class="badge-uso">🟢 EN USO</span>` + p.dataset.original; }
+                else if (!es && era) { p.classList.remove("activa"); p.dataset.activa = "0"; p.innerHTML = p.dataset.original; }
+            });
+        });
 
-function textoParaColumna(data,colIndex){
-  var personaCol=PERSONAS_BASE[colIndex];
-  var personaDatos=personaDeColumna(colIndex);
-  var texto=data[personaDatos]||"";
-  
-  texto=quitarCocinaAlmuerzo(texto);
-  texto=quitarBasura(texto);
-  
-  if((personaCol==="belen"||personaCol==="marvin") && getQuienHaceAlmuerzo(data.num)===personaCol){
-    texto=TEXTO_ALMUERZO+" · "+texto;
-  }
-  
-  texto = texto + " · " + TEXTO_BASURA;
-  
-  return texto;
-}
+    } catch (e) { console.warn("Error:", e); }
+};
 
-// ===== DISTRIBUCIÓN NIVELADA (Ventanas y Patio separados con " · ") =====
-var DATA=[
-{dia:"LUN",num:1,nombre:"LUNES",
-brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🔥 Limpiar la estufa de la cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🧹 Barrer y trapear la sala con clorox",
-belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🧹 Barrer y trapear la cocina",
-marvin:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🪜 Barrer y trapear escaleras con el pasadizo · 🧽 Tercer piso · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena",
-andriu:"🏡 Exterior · 🪟 Ventanas sala · 🐾 Patio cocina · 🛋️ Acomodar sofá"},
+let intv = null;
+const iniciar = () => { if (!intv) intv = setInterval(actualizar, 30000); };
+const detener = () => { if (intv) { clearInterval(intv); intv = null; } };
 
-{dia:"MAR",num:2,nombre:"MARTES",
-brak:"🔥 Limpiar la estufa de la cocina · 🪜 Barrer y trapear escaleras con el pasadizo · 🪟 Ventanas sala · 🐾 Patio cocina · 🛋️ Acomodar sofá",
-belen:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧽 Tercer piso · 🧹 Barrer y trapear la cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena",
-marvin:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado",
-andriu:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🏡 Exterior · 🧹 Barrer y trapear la sala con clorox"},
+document.addEventListener("visibilitychange", () => document.hidden ? detener() : (actualizar(), iniciar()));
 
-{dia:"MIÉ",num:3,nombre:"MIÉRCOLES",
-brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🔥 Limpiar la estufa de la cocina · 🧹 Barrer y trapear la sala con clorox",
-belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🪜 Barrer y trapear escaleras con el pasadizo · 🧹 Barrer y trapear la cocina",
-marvin:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧊 Refrigerador · 🪟 Ventanas sala · 🐾 Patio cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena",
-andriu:"🏡 Exterior · 🧽 Tercer piso · 🛋️ Acomodar sofá"},
-
-{dia:"JUE",num:4,nombre:"JUEVES",
-brak:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🧽 Tercer piso · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena",
-belen:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🔥 Limpiar la estufa de la cocina · 🪜 Barrer y trapear escaleras con el pasadizo · 🧹 Barrer y trapear la sala con clorox",
-marvin:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🏡 Exterior · 🧹 Barrer y trapear la cocina",
-andriu:"🏡 Exterior · 🪟 Ventanas sala · 🐾 Patio cocina · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado · 🛋️ Acomodar sofá"},
-
-{dia:"VIE",num:5,nombre:"VIERNES",
-brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🧹 Barrer y trapear la sala con clorox",
-belen:"🧽 Tercer piso · 🪟 Ventanas sala · 🐾 Patio cocina · 🧹 Barrer y trapear la cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena",
-marvin:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🔥 Limpiar la estufa de la cocina · 🪜 Barrer y trapear escaleras con el pasadizo · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado",
-andriu:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🏡 Exterior · 🛋️ Acomodar sofá"},
-
-{dia:"SÁB",num:6,nombre:"SÁBADO",
-brak:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🪟 Ventanas sala · 🐾 Patio cocina · 🛋️ Acomodar sofá",
-belen:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🔥 Limpiar la estufa de la cocina · 🧽 Tercer piso · 🧹 Barrer y trapear la cocina",
-marvin:"🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🧊 Refrigerador · 🪜 Barrer y trapear escaleras con el pasadizo · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena",
-andriu:"🏡 Exterior · 🧹 Barrer y trapear la sala con clorox · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado"},
-
-{dia:"DOM",num:0,nombre:"DOMINGO",
-brak:"🍳 Lavar ollas y utensilios de la cena y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🚿 Barrer y trapear suelo y ducha del baño 2do piso con las paredes y afuera también · 🪜 Barrer y trapear escaleras con el pasadizo · 🧹 Barrer y trapear la sala con clorox",
-belen:"🍳 Lavar ollas y utensilios del almuerzo y los platos, vasos y cubiertos que queden olvidados con limpiar las puertas de los gabinetes y lados · 🧊 Refrigerador · 🪟 Ventanas sala · 🐾 Patio cocina · 🛋️ Acomodar sofá",
-marvin:"🚿 Barrer y trapear suelo y ducha del baño 1er piso con las paredes y afuera también · 🔥 Limpiar la estufa de la cocina · 🧹 Barrer y trapear la cocina · 🧼 Limpiar mesa del comedor y sillas después del almuerzo y cena",
-andriu:"🏡 Exterior · 🧽 Tercer piso · 🗄️ Organizar objetos de la cocina sobre la estufa y mesas de los lados y limpiar con paño desinfectado"}
-];
-
-var TAREAS_HOR=[];
-function TH(match,label,emoji,ini,dur){TAREAS_HOR.push({match:match,label:label,emoji:emoji,ini:ini,dur:dur});}
-TH("Lavar ollas y utensilios del almuerzo","Cocina almuerzo","🍳",12*60,90);
-TH("Lavar ollas y utensilios de la cena","Cocina cena","🍳",19*60,60);
-TH("Limpiar la estufa","Estufa","🔥",16*60+30,30);
-TH("baño 2do piso","Baño 2do piso","🚿",16*60+30,30);
-TH("baño 1er piso","Baño 1er piso","🚿",16*60+30,30);
-TH("🧊 Refrigerador","Refrigerador","🧊",17*60,30);
-TH("🐾 Patio cocina","Patio cocina","🐾",16*60+30,30);
-TH("Barrer y trapear escaleras","Escaleras","🪜",17*60+30,30);
-TH("🧽 Tercer piso","Tercer piso","🧽",17*60,30);
-TH("Barrer y trapear la cocina","Suelo cocina","🧹",18*60,30);
-TH("Ventanas sala","Ventanas sala","🪟",16*60,30);
-TH("Ventana cocina","Ventana cocina","🪟",16*60,30);
-TH("Barrer y trapear la sala","Suelo sala","🧹",20*60+30,30);
-TH("Limpiar mesa del comedor","Mesa comedor (almuerzo)","🧼",16*60+30,20);
-TH("Limpiar mesa del comedor","Mesa comedor (cena)","🧼",20*60+30,20);
-TH("Botar la basura","Botar basura (todos)","🚮",21*60,15);
-TH("🏡 Exterior","Exterior","🏡",16*60+30,45);
-TH("Acomodar sofá","Acomodar sofá","🛋️",18*60,15);
-TH("Organizar objetos","Organizar objetos cocina","🗄️",17*60,30);
-TH("Lavar tacho","Lavar tacho","🗑️",21*60+15,15);
-
-(function construir(){
-var fragT=document.createDocumentFragment();
-var fragC=document.createDocumentFragment();
-for(var i=0;i<DATA.length;i++){
-var d=DATA[i];
-var tr=document.createElement("tr");
-tr.dataset.dia=d.num;
-var ht='<td class="dia">'+diaVertical(d.nombre)+'</td>';
-for(var j=0;j<PERSONAS.length;j++){
-  var txt=textoParaColumna(d,j);
-  ht+='<td class="'+PERSONAS[j].key+'">'+formatearTareasHTML(txt)+'</td>';
-}
-tr.innerHTML=ht;
-for(var j=0;j<PERSONAS.length;j++){
-  var td=tr.children[j+1];
-  td.dataset.original=td.innerHTML;
-  td.dataset.activa="0";
-}
-fragT.appendChild(tr);
-
-var card=document.createElement("div");
-card.className="card";
-card.dataset.dia=d.num;
-var hc='<div class="card-head"><span><span class="icon">📅</span> '+d.nombre+'</span><span class="badge-hoy" style="display:none">HOY</span></div>';
-for(var k=0;k<PERSONAS.length;k++){
-  var txt2=textoParaColumna(d,k);
-  hc+='<div class="persona '+PERSONAS[k].bg+'" data-key="'+PERSONAS[k].key+'" data-original="'+formatearTareasHTML(txt2).replace(/"/g,"&quot;")+'">'+formatearTareasHTML(txt2)+'</div>';
-}
-card.innerHTML=hc;
-fragC.appendChild(card);
-}
-tbody.appendChild(fragT);
-cards.appendChild(fragC);
-})();
-
-function obtenerMomento(h){for(var i=0;i<MOMENTOS.length;i++){if(h>=MOMENTOS[i].ini&&h<MOMENTOS[i].fin)return MOMENTOS[i];}return MOMENTOS[0];}
-function animar(el,c){el.classList.remove(c);void el.offsetWidth;el.classList.add(c);}
-function reordenar(hoy){var arr=Array.prototype.slice.call(cards.children);arr.sort(function(a,b){var da=+a.dataset.dia,db=+b.dataset.dia;return ((da-hoy+7)%7)-((db-hoy+7)%7);});for(var i=0;i<arr.length;i++)cards.appendChild(arr[i]);}
-function formatearHora(h,min){var h12=h%12||12;var mm=String(min).padStart(2,"0");var ampm=h<12?"AM":"PM";return h12+":"+mm+" "+ampm;}
-
-function calcularActivas(minA){
-var res=[];var hoy=new Date().getDay();var dd=null;
-for(var i=0;i<DATA.length;i++){if(DATA[i].num===hoy){dd=DATA[i];break;}}
-if(!dd) return res;
-for(var j=0;j<PERSONAS.length;j++){
-var p=PERSONAS[j], texto=textoParaColumna(dd,j);
-for(var k=0;k<TAREAS_HOR.length;k++){
-var t=TAREAS_HOR[k];
-if(texto.indexOf(t.match)!==-1){
-var fin=t.ini+t.dur;
-if(minA>=t.ini && minA<fin){
-res.push({label:t.label,emoji:t.emoji,persona:p.nombre,personaKey:p.key,fin:fin,restantes:fin-minA});
-}
-}
-}
-}
-return res;
-}
-
-function calcularProxima(minA){
-var hoy=new Date().getDay();var dd=null;
-for(var i=0;i<DATA.length;i++){if(DATA[i].num===hoy){dd=DATA[i];break;}}
-if(!dd) return null;
-var prox=null;
-for(var j=0;j<PERSONAS.length;j++){
-var p=PERSONAS[j], texto=textoParaColumna(dd,j);
-for(var k=0;k<TAREAS_HOR.length;k++){
-var t=TAREAS_HOR[k];
-if(texto.indexOf(t.match)!==-1 && t.ini>minA){
-if(!prox || t.ini<prox.ini){prox={label:t.label,emoji:t.emoji,persona:p.nombre,ini:t.ini};}
-}
-}
-}
-return prox;
-}
-
-function calcularCeldasActivas(activas){var res={};for(var i=0;i<activas.length;i++){res[activas[i].personaKey]=true;}return res;}
-
-function actualizarBanner(activas,minA){
-if(activas.length===0){
-alertBox.classList.add("vacio");
-alertTitle.textContent="Sin zonas en uso ahora";
-var prox=calcularProxima(minA);
-var html='<div class="alert-vacio-msg">✅ Ninguna zona en uso en este momento</div>';
-if(prox){var fh=Math.floor(prox.ini/60),fm=prox.ini%60;html+='<div class="alert-vacio-prox">⏳ Próxima tarea: '+prox.emoji+' '+prox.label+' → '+prox.persona+' a las '+formatearHora(fh,fm)+'</div>';}
-alertList.innerHTML=html;
-alertTip.style.display="none";
-return;
-}
-alertBox.classList.remove("vacio");
-alertTitle.textContent="Zonas en uso ahora";
-var html="";
-for(var i=0;i<activas.length;i++){
-var a=activas[i];
-var fh=Math.floor(a.fin/60), fm=a.fin%60;
-var finStr=formatearHora(fh,fm);
-html+='<div class="alert-item"><span class="alert-emoji">'+a.emoji+'</span><span class="alert-zona">'+a.label+'</span><span class="alert-quien">→ '+a.persona+'</span><span class="alert-time">⏳ '+a.restantes+' min · hasta '+finStr+'</span></div>';
-}
-alertList.innerHTML=html;
-alertTip.style.display="block";
-}
-
-function actualizarCeldas(activasKeys){
-var hoy=new Date().getDay();
-var trs=tbody.querySelectorAll("tr");
-for(var i=0;i<trs.length;i++){
-var tr=trs[i];
-var esHoy=+tr.dataset.dia===hoy;
-for(var j=1;j<tr.children.length;j++){
-var td=tr.children[j];
-var key=PERSONAS[j-1].key;
-var era=td.dataset.activa==="1";
-var es=esHoy && activasKeys[key];
-if(es && !era){td.classList.add("activa");td.dataset.activa="1";td.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+td.dataset.original;}
-else if(!es && era){td.classList.remove("activa");td.dataset.activa="0";td.innerHTML=td.dataset.original;}
-}
-}
-}
-
-function actualizarPersonas(activasKeys){
-var hoy=new Date().getDay();
-var tarjetas=cards.children;
-for(var i=0;i<tarjetas.length;i++){
-var c=tarjetas[i];
-var esHoy=+c.dataset.dia===hoy;
-var personas=c.querySelectorAll(".persona");
-for(var j=0;j<personas.length;j++){
-var p=personas[j];
-var key=p.dataset.key;
-var era=p.dataset.activa==="1";
-var es=esHoy && activasKeys[key];
-if(es && !era){p.classList.add("activa");p.dataset.activa="1";p.innerHTML='<span class="badge-uso">🟢 EN USO</span>'+p.dataset.original;}
-else if(!es && era){p.classList.remove("activa");p.dataset.activa="0";p.innerHTML=p.dataset.original;}
-}
-}
-}
-
-function actualizarHoyBox(hoy){
-hoyTag.textContent=DIAS[hoy];
-var dd=null;
-for(var i=0;i<DATA.length;i++){if(DATA[i].num===hoy){dd=DATA[i];break;}}
-if(!dd){hoyList.innerHTML="";return;}
-var html="";
-for(var j=0;j<PERSONAS.length;j++){
-var p=PERSONAS[j];
-var texto=textoParaColumna(dd,j);
-var resumen = resumenTexto(texto);
-html+='<div class="hoy-item '+p.hoyBg+'"><div style="flex:1;min-width:0;"><span class="hoy-name">'+p.nombre+'</span><span class="hoy-tasks">'+resumen+'</span></div></div>';
-}
-hoyList.innerHTML=html;
-}
-
-var ultTip="",ultHora="",ultDia=-1;
-
-function actualizar(){
-try{
-var ahora=new Date();
-var h=ahora.getHours();
-var min=ahora.getMinutes();
-var minA=h*60+min;
-var hStr=formatearHora(h,min);
-
-if(hStr!==ultHora){ultHora=hStr;pillHora.textContent="⏰ "+hStr;animar(pillHora,"tick");}
-
-var m=obtenerMomento(h);
-if(m.tip!==ultTip){ultTip=m.tip;tipBox.classList.remove("cambia");void tipBox.offsetWidth;tipIcon.textContent=m.emoji;tipText.textContent=m.tip;tipBox.classList.add("cambia");}
-
-var hoy=ahora.getDay();
-if(hoy!==ultDia){
-ultDia=hoy;
-pillDia.textContent="📅 Hoy es "+DIAS[hoy];
-var trs=document.querySelectorAll("tbody tr[data-dia]");
-for(var i=0;i<trs.length;i++){trs[i].classList.toggle("hoy",+trs[i].dataset.dia===hoy);}
-var tarjetas=cards.children;
-for(var j=0;j<tarjetas.length;j++){
-var c=tarjetas[j];
-var esHoy=+c.dataset.dia===hoy;
-c.classList.toggle("hoy",esHoy);
-var badge=c.querySelector(".badge-hoy");
-if(badge)badge.style.display=esHoy?"inline-block":"none";
-}
-reordenar(hoy);
-actualizarHoyBox(hoy);
-}
-
-var activas=calcularActivas(minA);
-var keys=calcularCeldasActivas(activas);
-actualizarBanner(activas,minA);
-actualizarCeldas(keys);
-actualizarPersonas(keys);
-}catch(e){if(window.console&&console.warn)console.warn("Error:",e);}
-}
-
-var intervalo=null;
-var INTERVALO_MS=30000;
-function iniciar(){if(intervalo)return;intervalo=setInterval(actualizar,INTERVALO_MS);}
-function detener(){if(intervalo){clearInterval(intervalo);intervalo=null;}}
-if(document.hidden!==undefined){document.addEventListener("visibilitychange",function(){if(document.hidden){detener();}else{actualizar();iniciar();}});}
-
-pillSemana.textContent="📆 Rotación "+(SEMANA_ROT+1)+"/4";
 actualizar();
 iniciar();
-})();
 </script>
 </body>
 </html>
